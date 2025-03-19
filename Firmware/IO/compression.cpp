@@ -1,29 +1,49 @@
 class compression{
     public:
-        char* lossless_compression (uint8192_t window_size, char *filestream)
+        char* lossless_compression (char *filestream)
         {
-            char *compressed_text;
+            char compressed_text[sizeof(filestream)];
             uint8192_t previous_max = 0, current_max = filestream[0], temporary_max = 0;
 
-            if (window_size <= sizeof(filestream))
+            for (int i = 0; i <= sizeof(filestream); i++)
             {
-                for (int i = 0; i < sizeof(filestream); i++)
-                {
-                    if (previous_max > current_max)
-                    {
-                        temporary_max = current_max;
-                        current_max = previous_max;
-                        previous_max = temporary_max;
-                    }
+                if (previous_max > current_max){
+                    temporary_max = current_max;
+                    current_max = previous_max;
+                    previous_max = temporary_max;
                 }
+
+                else if ((previous_max == current_max) || (previous_max < current_max)){
+                    continue;
+                }
+
+            for (int i = 0; i <= sizeof(filestream); i++)
+            {
+                if (previous_max > current_max)
+                {
+                    temporary_max = current_max;
+                    current_max = previous_max;
+                    previous_max = temporary_max;
+                }
+
+                else if ((previous_max == current_max) || (previous_max < current_max))
+                    continue;
             }
 
+            for (uint8192_t i = 0; i < sizeof(filestream); i++)
+                compressed_text[i] = filestream[i]/current_max;
             return compressed_text;
         }
 
-        char *lossy_compression ()
-        {
-            char *compressed_text;
+        char *lossy_compression (char *filestream){
+            char compressed_text [sizeof(filestream)];
+
+            for (uint8192_t i = 0; i <= sizeof(filestream); i++)
+            {
+                if (i++ <= sizeof(filestream))
+                    compressed_text [i] = filestream[i] - filestream[i++];
+            }
+            
             return compressed_text;
         }
 };
