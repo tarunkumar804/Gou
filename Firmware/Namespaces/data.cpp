@@ -34,4 +34,9 @@ namespace data{
         uint1024_t number_of_characters;
         char array[number_of_characters];
     };
+
+    typedef struct vector{
+        uint8192_t size_of_data;
+        char data[size_of_data];
+    };
 }

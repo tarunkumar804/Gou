@@ -7,7 +7,7 @@ class audio_decompression{
             *.  and then multiplies the audio signal with the maximum audio signal
             *.  to get back the original signal.
             */
-            uint8192_t audio_signal = query_audio_port_address;
+            uint8192_t audio_signal = ask_audio_port_address;
             uint8192_t decompressed_audio = audio_signal * maximum_audio_level;
             return decompressed_audio;
         }

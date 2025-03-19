@@ -17,15 +17,15 @@ class MIDI {
              for (int j = 0; j < number_of_samples; i++)
              {
                   if (i == 0)
-                      MIDI_data[i][j] = query_MIDI_port1_address;
+                      MIDI_data[i][j] =ask_MIDI_port1_address;
                   else if (i == 1)
-                      MIDI_data [i][j] = query_MIDI_port2_address;
+                      MIDI_data [i][j] = ask_MIDI_port2_address;
                   else if (i == 2)
-                       MIDI_data [i][j] = query_MIDI_port3_address;
+                       MIDI_data [i][j] = ask_MIDI_port3_address;
                   else if (i == 3)
-                        MIDI_data [i][j] = query_MIDI_port4_address;
+                        MIDI_data [i][j] = ask_MIDI_port4_address;
                   else if (i == 4)
-                        MIDI_data [i][j] = query_MIDI_port5_address;
+                        MIDI_data [i][j] = ask_MIDI_port5_address;
 
              }
         return MIDI_data;

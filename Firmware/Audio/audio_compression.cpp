@@ -39,7 +39,7 @@ class audio_compression{
           compressed_audio = uint8192_t [audio_level];
           while (((audio_signal = audio_port_address) != 0) || (i != 0))
           {
-             audio_signal = query_audio_port_address; // queries the audio port for the audio signal.
+             audio_signal = ask_audio_port_address; // queries the audio port for the audio signal.
              audio_signal = audio_signal/audio_level; //Divides the audio signal with the maximum audio level.
              compressed_audio [i] = audio_signal;
              i++;
@@ -61,7 +61,7 @@ class audio_compression{
         {
             
             for (int i = 0; i < window_size; i++)
-                audio_window [i] = query_audio_port_address;
+                audio_window [i] = ask_audio_port_address;
              
             for (int i = 0; i < window_size; i++)
             {
