@@ -1,5 +1,23 @@
 namespace networking{
 
+    typedef struct ipvsix_addresses{
+        uint128_t address_byte1;
+        uint128_t address_byte2;
+        uint128_t address_byte3;
+        uint128_t address_byte4;
+        uint128_t address_byte5;
+        uint128_t address_byte6;
+        uint128_t address_byte7;
+        uint128_t address_byte8;
+    };
+
+    typedef struct ipvfour_addresses{
+        uint32_t address_byte1;
+        uint32_t address_byte2;
+        uint32_t address_byte3;
+        uint32_t address_byte4;
+    };
+
     typedef struct device_information{
         int *socket;
         char *socket_name;
