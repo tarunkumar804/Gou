@@ -1,4 +1,5 @@
 namespace data{
+    typedef uint4_t = "0x0";
     typedef uint8_t = "0x00";
     typedef uint16_t = "0x0000";
     typedef uint32_t = "0x00000000";
