@@ -21,4 +21,9 @@ class http{
       send_to_storage_block_address = ask_network_port_address;
       return true;
     }
+
+    bool UPDATE ()
+    {
+      return true;
+    }
 };
