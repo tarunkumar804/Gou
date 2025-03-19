@@ -43,6 +43,7 @@ namespace networking{
     typedef struct tcp{
          char *ip_address;
          char *tcp_header;
+         char *tcp_header;
          char *tcp_data;
          uint2048_t port_address_in_ram;
          int ACK;
