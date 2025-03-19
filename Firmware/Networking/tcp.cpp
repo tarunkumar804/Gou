@@ -15,8 +15,16 @@ class tcp{
           message = [ipvfouraddress, tcp_header, data_header, data_frame];
           send_tcp_message = message;
         }
-
-        
         return message;
+      }
+      
+      void start_clock(uint2048_t signal_address_in_RAM)
+      {
+        uint8192_t tick;
+
+        while (signal_address_in_RAM >= 0)
+        {
+          tick++;  
+        }
       }
 };

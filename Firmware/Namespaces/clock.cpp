@@ -53,11 +53,15 @@ namespace clock{
     const int CST = GMT - 600;
     const int MST = GMT - 700;
     const int CET = GMT + 100;
-    const int EET = GMT + 100;
+    const int EET = GMT + 200;
     const int MSK = GMT + 300;
     const int EAT = GMT + 300;
     const int EST = GMT - 500;
     const int JST = GMT + 900;
-    const int 
+    const int Otwelve = GMT + 1200;
+    const int PST = GMT - 800;
+    const int ChST = GMT + 1000;
+    const int HST = GMT - 1000;
+    const int SST = GMT - 1100;
     typedef uint8192_t ticks;
 }
