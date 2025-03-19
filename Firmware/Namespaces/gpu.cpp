@@ -6,6 +6,8 @@ namespace gpu{
     typedef uint8192_t pixel; // Pixel gradient intensity.
     typedef uint8192_t colour; // Colour value.
 
+
+
     typedef struct display_depth{
         long long int bit_depth;
         char image_to_send[bit_depth][bit_depth];
@@ -35,12 +37,6 @@ namespace gpu{
         uint8192_t time_flow;
         uint8192_t number_of_events;
         uint8192_t time_flow_array[number_of_events];
-    };
-
-    typedef struct set
-    {
-        uint8192_t number_of_elements;
-        uint8192_t element_array[number_of_elements];
     };
 
     typedef struct path_data
