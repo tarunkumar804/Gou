@@ -23,8 +23,6 @@ class tcp{
         uint8192_t tick;
 
         while (signal_address_in_RAM >= 0)
-        {
           tick++;  
-        }
       }
 };

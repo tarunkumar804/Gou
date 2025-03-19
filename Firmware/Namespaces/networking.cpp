@@ -1,5 +1,10 @@
 namespace networking{
 
+    typedef struct data_block{
+        uint8192_t length_of_block;
+        uint8192_t block[length_of_block];
+    };
+
     typedef struct ipvsix_addresses{
         uint128_t address_byte1;
         uint128_t address_byte2;
