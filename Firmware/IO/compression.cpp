@@ -36,14 +36,14 @@ class compression{
         }
 
         char *lossy_compression (char *filestream){
+
             char compressed_text [sizeof(filestream)];
 
-            for (uint8192_t i = 0; i <= sizeof(filestream); i++)
-            {
+            for (uint8192_t i = 0; i <= sizeof(filestream); i++){
                 if (i++ <= sizeof(filestream))
                     compressed_text [i] = filestream[i] - filestream[i++];
             }
-            
+
             return compressed_text;
         }
 };
