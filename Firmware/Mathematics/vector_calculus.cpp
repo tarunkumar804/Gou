@@ -1,57 +1,65 @@
+#include <cstdint>
+#include <cmath>
+#include <cstddef>
+
+using uint8192_t = __int128; // Assuming uint8192_t is a large integer type, e.g., __int128 for demonstration
+
 class vector_calculus {
-    public:
-       uint8192_t* sum_of_subspaces (uint8192_t subspaces[][], uint8192_t number_of_rows, uint8192_t number_of_columns)
-       {
-          /** Explanation of below statements:
-          *. Sums up the elements in a column and
-          *  fills up an entry in the subspace matrix.
-          */
-          uint8192_t subspace_sums = subspaces[number_of_columns];
-          uint8192_t subspace_sum = 0;
+public:
+    // Fixed: Sum of Subspaces
+    void sum_of_subspaces(uint8192_t** subspaces, size_t number_of_rows, size_t number_of_columns, uint8192_t* subspace_sums) {
+        for (size_t i = 0; i < number_of_columns; i++) {
+            uint8192_t sum = 0;
+            for (size_t j = 0; j < number_of_rows; j++) {
+                sum += subspaces[j][i];
+            }
+            subspace_sums[i] = sum;
+        }
+    }
 
-          for (int i = 0; i < number_of_columns; i++)
-          {
-             for (int j = i; j < number_of_rows; j++)
-                 subspace_sum = subspace_sum + subspaces[j][i];
-             subspace_sums [i] = subspace_sum;
-          }
-          
-          return subspace_sums;
-       }
-       
-       uint8192_t direct_sum (uint8192_t subspaces_to_sum** , uint8192_t number_of_rows, uint8192_t number_of_columns)
-       {
-           uint8192_t direct_sum = 0;
-           
-           for (int i = 0; i < number_of_rows; i++)
-              for (int j = 0; j < number_of_columns; j++)
-                  direct_sum = direct_sum + subspaces_to_sum [i][j];
-           
-            return direct_sum;
-       }
-       
-       bool is_a_linear_combination (uint8192_t vector[], uint8192_t vector1[], uint8192_t vector2[], uint8192_t vector_result[], uint8192_t lambda1, uint8192_t lambda2)
-       {
-           uint8192_t vector1_sum = 0, vector2_sum = 0;
+    // Fixed: Direct Sum
+    uint8192_t direct_sum(uint8192_t** subspaces_to_sum, size_t number_of_rows, size_t number_of_columns) {
+        uint8192_t sum = 0;
+        for (size_t i = 0; i < number_of_rows; i++) {
+            for (size_t j = 0; j < number_of_columns; j++) {
+                sum += subspaces_to_sum[i][j];
+            }
+        }
+        return sum;
+    }
 
-           for (uint8192_t i = 0; i < sizeof(vector1); i++)
-           {
-               vector1[i] = lambda1 * vector1[i];
-               vector1_sum = vector1_sum + vector1[i];
-           }
-           for (uint8192_t i = 0; i < sizeof(vector2); i++)
-           {
-               vector2[i] = lambda2 * vector2[i];
-               vector2_sum = vector2_sum + vector2[i];
-           }
-
-           uint8192_t vector_sum = 0;
-
-           for (uint8192_t i = 0; i < sizeof(vector); i++)
-                vector_sum = vector_sum + vector[i];
-            
-            if (vector_sum != vector1_sum + vector2_sum)
+    // Fixed: Is a Linear Combination
+    bool is_a_linear_combination(uint8192_t* vector, uint8192_t* vector1, uint8192_t* vector2, uint8192_t lambda1, uint8192_t lambda2, size_t vector_length) {
+        for (size_t i = 0; i < vector_length; i++) {
+            if (vector[i] != lambda1 * vector1[i] + lambda2 * vector2[i]) {
                 return false;
-           return true;
-       }
+            }
+        }
+        return true;
+    }
+
+    // New: Dot Product
+    uint8192_t dot_product(uint8192_t* vec1, uint8192_t* vec2, size_t length) {
+        uint8192_t sum = 0;
+        for (size_t i = 0; i < length; i++) {
+            sum += vec1[i] * vec2[i];
+        }
+        return sum;
+    }
+
+    // New: Vector Norm
+    double vector_norm(uint8192_t* vec, size_t length) {
+        uint8192_t sum = 0;
+        for (size_t i = 0; i < length; i++) {
+            sum += vec[i] * vec[i];
+        }
+        return std::sqrt(static_cast<double>(sum));
+    }
+
+    // New: Cross Product (for 3D vectors)
+    void cross_product(uint8192_t* vec1, uint8192_t* vec2, uint8192_t* result) {
+        result[0] = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+        result[1] = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+        result[2] = vec1[0] * vec2[1] - vec1[1] * vec2[0];
+    }
 };
