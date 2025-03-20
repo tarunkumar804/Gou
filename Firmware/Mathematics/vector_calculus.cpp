@@ -30,8 +30,28 @@ class vector_calculus {
             return direct_sum;
        }
        
-       bool linear_inpedence (int512_t linear_equation_matrix**)
+       bool is_a_linear_combination (uint8192_t vector[], uint8192_t vector1[], uint8192_t vector2[], uint8192_t vector_result[], uint8192_t lambda1, uint8192_t lambda2)
        {
+           uint8192_t vector1_sum = 0, vector2_sum = 0;
+
+           for (uint8192_t i = 0; i < sizeof(vector1); i++)
+           {
+               vector1[i] = lambda1 * vector1[i];
+               vector1_sum = vector1_sum + vector1[i];
+           }
+           for (uint8192_t i = 0; i < sizeof(vector2); i++)
+           {
+               vector2[i] = lambda2 * vector2[i];
+               vector2_sum = vector2_sum + vector2[i];
+           }
+
+           uint8192_t vector_sum = 0;
+
+           for (uint8192_t i = 0; i < sizeof(vector); i++)
+                vector_sum = vector_sum + vector[i];
+            
+            if (vector_sum != vector1_sum + vector2_sum)
+                return false;
            return true;
        }
 };
