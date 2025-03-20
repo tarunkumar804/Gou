@@ -57,26 +57,26 @@ namespace networking{
     };
 
     typedef struct udp {
-         char *ip_address;
-         char *udp_header;
-         char *udp_data;
-         uint2048_t port_address_in_ram;
-         int ACK;
-         int UDP_return_code;
+        char *ip_address;
+        char *udp_header;
+        char *udp_data;
+        uint2048_t port_address_in_ram;
+        int ACK;
+        int UDP_return_code;
     };
 
     typedef struct http{
-         char *http_header;
-         char *request;
-         char *http_data;
-         char *http_response;
+        char *http_header;
+        char *request;
+        char *http_data;
+        char *http_response;
     };
 
     typedef struct ftp{
-         char *data;
-         char *ipvfour_address;
-         char *ipvsix_address;
-         int1024_t port;
+        char *data;
+        char *ipvfour_address;
+        char *ipvsix_address;
+        int1024_t port;
     };
     
     typedef struct sftp{
@@ -122,25 +122,33 @@ namespace networking{
     };
     
     typedef struct tls{
-         uint8192_t seed;
-         char *hmac;
-         char *hmac_hash;
-         char *mac_write_secret;
-         uint8192_t sequence_number;
-         char *compression_type;
-         uint512_t compression_version;
-         uint2048_t compressed_message_length;
-         char *compressed_message_fragment;
-         char *message_secret;
-         char *finished_label;
-         char *handshake_messages;
-         char *pre_master_secret;
-         uint8192_t random_number;
+        uint8192_t seed;
+        char *hmac;
+        char *hmac_hash;
+        char *mac_write_secret;
+        uint8192_t sequence_number;
+        char *compression_type;
+        uint512_t compression_version;
+        uint2048_t compressed_message_length;
+        char *compressed_message_fragment;
+        char *message_secret;
+        char *finished_label;
+        char *handshake_messages;
+        char *pre_master_secret;
+        uint8192_t random_number;
     };
 
     typedef struct drm {
-         char *network_id;
-         char *network_key;
-         char *drm_key;
+        char *network_id;
+        char *network_key;
+        char *drm_key;
+    };
+
+    typedef struct ble{
+        char *device_name;
+        uint8192_t device_id;
+        uint8192_t number_of_devices;
+        uint8192_t device_array[number_of_devices];
+        
     };
 }
