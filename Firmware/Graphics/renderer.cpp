@@ -5,8 +5,6 @@
 #include <chrono>
 #include <string>
 
-namespace graphics_primitive {
-
 class Renderer {
 private:
     std::vector<uint8_t> frame_buffer;
@@ -124,5 +122,3 @@ public:
         return false;
     }
 };
-
-} // namespace graphics_primitive
