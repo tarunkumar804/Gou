@@ -17,7 +17,7 @@ class numerical_methods{
             return factorial_sum;
         }
      
-        double8192_t compute_factorial (double8192_t n)
+        double8192_t factorial (double8192_t n)
         {
            // Explanation of below function : (1/2)! = 1!/2!
            int8912_t integer_part = n;
@@ -67,7 +67,7 @@ class numerical_methods{
            return root;
         }
 
-        double evaluate_function(string expression, double point){
+        double function_evaluation(string expression, double point){
             double result = 0;
             return result;
         }

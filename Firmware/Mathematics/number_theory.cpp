@@ -7,17 +7,17 @@ class number_theory{
       }
       double8192_t combinations (double8192_t n, double8192_t r)
       {
-        double8192_t n_factorial = ;
-        double8192_t n_r_factorial = ;
-        double8192_t r_factorial = ;
+        double8192_t n_factorial = factorial(n);
+        double8192_t n_r_factorial = factorial(n-r);
+        double8192_t r_factorial = factorial(r);
         double8192_t ncr = n_factorial/(n_r_factorial*r_factorial);
         return ncr;
       }
       
       double8192_t permutations (double8192_t n, double8192_t r)
       {
-        double8192_t n_factorial =  ;
-        double8192_t n_r_factorial = ;
+        double8192_t n_factorial =  factorial(n);
+        double8192_t n_r_factorial = factorial(n-r);
         double8129_t npr = n_factorial/n_r_factorial;
         return npr;
       }
