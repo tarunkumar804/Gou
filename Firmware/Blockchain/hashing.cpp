@@ -8,8 +8,8 @@ class hashing{
             for (long long int l = 0; l < number_of_iterations; l++)
             {
                 temporary_number = number;
-                number = number >> 1;
-                carry_over = temporary_number - number;
+                number = number >> 1; // Number gets divided by 2.
+                carry_over = temporary_number - number; //Number - Temporary_number = negative number or inverted bits.
                 rotated_number = number | carry_over;
             }
 
@@ -39,11 +39,6 @@ class hashing{
             temp_h = ch ^ h ^ sum_e ^ derived_word ^ additive_constant;
             temp_d = d ^ temp_h;
             hash = [temp_a, a, b, c, temp_d, f, f, g];
-            return hash;
-        }
-        
-        char* bcrypt() {
-            char *hash;
             return hash;
         }
 };
