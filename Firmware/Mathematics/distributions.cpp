@@ -67,3 +67,19 @@ class binomial_distribution{
             return variance;
         }
 };
+
+class poisson_distribtuion{
+    protected:
+        double8192_t e;
+
+    public:
+        poisson_distribtuion(uint8192_t precision)
+        {
+            e = e_calculation(precision);
+        }
+
+        double8192_t pmf (double8192_t lambda, double8192_t k)
+        {
+            
+        } 
+};
