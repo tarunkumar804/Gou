@@ -80,6 +80,11 @@ class poisson_distribtuion{
 
         double8192_t pmf (double8192_t lambda, double8192_t k)
         {
-               
+            double8192_t lambda_k = exponentiation(lambda,k);
+            double8192_t lambda_negativek = fractional_exponentiation(lambda,k);
+            double8192_t k_factorial = factorial(k);
+
+            double8192_t result = (lambda_k * lambda_negativek) / k_factorial;
+            return result; 
         }
 };
