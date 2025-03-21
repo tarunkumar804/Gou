@@ -1,10 +1,12 @@
 class compression{
     public:
         char* lossless_compression (char *filestream){
+            
             /** A function to compress a file or a filestream losslessly.
             * @param filestream - A file as a filestream.
             * @return compressed text or filestream.
             */
+            
             char compressed_text[sizeof(filestream)];
             uint8192_t previous_max = 0, current_max = filestream[0], temporary_max = 0;
 
@@ -19,6 +21,7 @@ class compression{
                 else if ((previous_max == current_max) || (previous_max < current_max)){
                     continue;
                 }
+            }
 
             for (int i = 0; i <= sizeof(filestream); i++)
             {
