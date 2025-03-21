@@ -85,6 +85,11 @@ class poisson_distribtuion{
             double8192_t k_factorial = factorial(k);
 
             double8192_t result = (lambda_k * lambda_negativek) / k_factorial;
-            return result; 
+            return result;
         }
+
+        double8192_t expectation (double8192_t lambda)
+            return lambda;
+        double8192_t variance (double812_t lambda)
+            return lambda;
 };
