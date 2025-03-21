@@ -1,7 +1,18 @@
 class hashing{
     public:
-        uint2048_t rotations (uint2048_t number, uint2048_t number_of_iterations){
-            uint2048_t rotated_number = 0;
+        uint2048_t rotations (uint2048_t number, long long int number_of_iterations){
+            
+            uint2048_t rotated_number = 0, temporary_number = 0;
+            uint8_t carry_over = 0;
+            
+            for (long long int l = 0; l < number_of_iterations; l++)
+            {
+                temporary_number = number;
+                number = number >> 1;
+                carry_over = temporary_number - number;
+                rotated_number = number | carry_over;
+            }
+
             return rotated_number;
         }
 
