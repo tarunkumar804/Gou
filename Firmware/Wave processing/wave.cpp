@@ -3,7 +3,7 @@ class wave{
         long* generate_wave (double starting_degree, long bit_depth)
         {
             /** A function to generate a wave in digital values.
-            *  @param bit_depth - number of steps.
+            *  @param bit_depth - number of bits like 8-bit wave, 16-bit wave, 32-bit wave and so on.
             *  @param starting_degree - starting wave degree.
             *. @return generated wave in digital values.
             */
