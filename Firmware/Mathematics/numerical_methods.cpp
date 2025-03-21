@@ -50,38 +50,47 @@ class numerical_methods{
             return exponentiation_result;
         }
 
-        double8192_t fractional_exponentiation (double8129_t base, double8192_t exponent)
+        double8192_t fractional_exponentiation (double8192_t base, double8192_t exponent)
         {
-            uint8192_t number_of_iterations = convert_exponent, exponentiation_result;
-            for (uint8192_t iteration = 1; iteration < number_of_iterations; iteration++)
-                exponentiation_result =  base/exponent;
-            return exponentiation_result;
+            double8192_t exponent_copy = exponent;
+            double8192_t result = base;
+
+            for (int8192_t i = 0; i < integer_part; i++)
+                result = result * result;
+            while ((fractional_part * 10 - fractional_part_copy) < (fractional_part_copy * 10))
+            {
+                exponent_copy = exponent;
+                exponent = exponent * 10;
+                result = result/exponent;
+            }
+
+            return result;
         }
 
         double8192_t calculate_logarithm (double8192_t base, double8192_t x, double8192_t expected_result)
         {
-        /** Explanation of below function :
-        * Exponentiates until it reaches the number.
-        * If the exponentitation goes beyond the number,
-        * the number is divided with the base the number
-        * of times the base is to multiplied to be brought
-        * to a whole number.
-        */
-        double8192_t logarithm_result = 1;
+            /** Explanation of below function :
+            * Exponentiates until it reaches the number.
+            * If the exponentitation goes beyond the number,
+            * the number is divided with the base the number
+            * of times the base is to multiplied to be brought
+            * to a whole number.
+            */
+            double8192_t logarithm_result = 1;
      
-        while (logarithm_result < expected_result)
-        {
-            for (int i = 0; i <= x ; i++)
-                intermediate_result = intermediate_result * 10;
-        }
+            while (logarithm_result < expected_result)
+            {
+                for (int i = 0; i <= x ; i++)
+                    intermediate_result = intermediate_result * 10;
+            }
      
-        if (logarithm_result > expected_result)
-        {
-            while (logarithm_result != expected _result)
-                logarithm_result = logarithm_result/base;
-        }
+            if (logarithm_result > expected_result)
+            {
+                while (logarithm_result != expected _result)
+                    logarithm_result = logarithm_result/base;
+            }
      
-        return logarithm_result;
+            return logarithm_result;
         }
   
         double8192_t probability (double8192_t set[], double8192_t value_to_check_for)

@@ -80,6 +80,6 @@ class poisson_distribtuion{
 
         double8192_t pmf (double8192_t lambda, double8192_t k)
         {
-            
-        } 
+               
+        }
 };

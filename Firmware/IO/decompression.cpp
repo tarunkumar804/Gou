@@ -6,6 +6,7 @@ class decompression{
             * @param filestream - A file as a stream or a filestream.
             * @return decompressed_text - The decompressed text.
             */
+           
             char decompressed_text [sizeof(filestream)];
             for (uint8192_t i = 0; i < sizeof(filestream); i++)
                 decompressed_text = filestream[i] * max;
