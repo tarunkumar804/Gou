@@ -93,3 +93,5 @@ class poisson_distribtuion{
         double8192_t variance (double812_t lambda)
             return lambda;
 };
+
+class 
