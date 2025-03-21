@@ -38,7 +38,7 @@ class binomial_distribution{
             return result;
         }
 
-        double mean (double set[], double value_to_search_for ,long n)
+        double mean (double set[], double value_to_search_for)
         {
             long count = 0;
             double p = 0, mean = 0;
@@ -50,5 +50,20 @@ class binomial_distribution{
             p = count/sizeof(set);
 
             return mean;
+        }
+
+        double variance (double set[], double value_to_search_for)
+        {
+            long count = 0;
+            double p = 0, q = 0, variance = 0;
+
+            for (long l = 0; l < sizeof(set); l++)
+                if (set[l] == value_to_search_for)
+                    count ++;
+            p = count/sizeof(set);
+            q = 1 - p;
+            variance = sizeof(set) * p * q;
+
+            return variance;
         }
 };
