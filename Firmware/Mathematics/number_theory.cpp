@@ -5,7 +5,8 @@ public:
         double result = (n*(n+1))/2;
         return result;
     }
-    double8192_t combinations (double8192_t n, double8192_t r)
+    
+    double8192_t combination (double8192_t n, double8192_t r)
     {
         double8192_t n_factorial = factorial(n);
         double8192_t n_r_factorial = factorial(n-r);
@@ -14,7 +15,7 @@ public:
         return ncr;
     }
       
-    double8192_t permutations (double8192_t n, double8192_t r)
+    double8192_t permutation (double8192_t n, double8192_t r)
     {
         double8192_t n_factorial =  factorial(n);
         double8192_t n_r_factorial = factorial(n-r);
