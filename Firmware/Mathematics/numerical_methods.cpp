@@ -42,6 +42,9 @@ class numerical_methods{
 
         double8192_t exponentiation (double8192_t base, double8192_t exponent)
         {
+            /**
+            * Calculates base ^ exponent.
+            */
             uint8192_t number_of_iterations = convert_exponent, exponentiation_result = 0;
      
             for (uint8192_t iterations = 0; iterations < number_of_iterations; iterations++)
@@ -52,6 +55,9 @@ class numerical_methods{
 
         double8192_t fractional_exponentiation (double8192_t base, double8192_t exponent)
         {
+            /**
+             * Calculates base ^ -(exponent).
+             */
             double8192_t exponent_copy = exponent;
             double8192_t result = base;
 
