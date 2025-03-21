@@ -14,6 +14,10 @@ class decompression{
 
         char* lossy_decompression (char *filestream)
         {
+            /** A function to decompress a lossily compressed file or text.
+            * @param filestream - A file as a filestream or a filestream.
+            * @return The decompressed filestream or text.
+            */
             char decompressed_text[sizeof(filestream)];
 
             for (uint8192_t i = 0; i <= sizeof(filestream); i++)
