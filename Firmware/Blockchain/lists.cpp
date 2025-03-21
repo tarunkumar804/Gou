@@ -12,7 +12,8 @@ class list{
             {
                 root = starting_node;
             }
-            node* create_and_add_node(node *previous_node, char *contents_to_insert){
+            
+            node* create_and_insert_node(node *previous_node, char *contents_to_insert){
 
                 node *new_node = new node();
             
@@ -23,7 +24,7 @@ class list{
                 return new_node;
             }
     
-            node* node_you_want_to_traverse_until (node *node_to_traverse_until)
+            node* node_to_traverse_until (node *node_to_traverse_until)
             {
                 node *current = root;
                 while (current != node_to_traverse_until)

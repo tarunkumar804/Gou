@@ -1,7 +1,10 @@
 class compression{
     public:
-        char* lossless_compression (char *filestream)
-        {
+        char* lossless_compression (char *filestream){
+            /** A function to compress a file or a filestream losslessly.
+            * @param filestream - A file as a filestream.
+            * @return compressed text or filestream.
+            */
             char compressed_text[sizeof(filestream)];
             uint8192_t previous_max = 0, current_max = filestream[0], temporary_max = 0;
 
@@ -36,7 +39,10 @@ class compression{
         }
 
         char *lossy_compression (char *filestream){
-
+            /** A function to compress a file or a filestream lossily.
+            * @param filestream - A file as a filestream or a filestream.
+            * @return compressed text or filestream.
+            */
             char compressed_text [sizeof(filestream)];
 
             for (uint8192_t i = 0; i <= sizeof(filestream); i++){

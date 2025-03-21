@@ -1,5 +1,5 @@
 namespace mathematical{
-     typedef const double8192_t pi = 22/7;
+     typedef const double pi = 22/7;// A variable to calculate the irrational number Pi according to the amount of precision that can be adjustable according to the bit length of the processor.
 
      typedef struct set{
           uint8192_t length_of_array;

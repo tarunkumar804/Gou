@@ -1,7 +1,7 @@
 namespace data_structure_primitives{
 
     typedef struct node{
-        char *contents;
+        char *contents; //Data as a string.
         node *next;
         node *prev;
         node *loopback; // A pointer to the starting node like a loopback address.
@@ -13,15 +13,15 @@ namespace data_structure_primitives{
     };
 
     typedef struct stack{
-         int8192_t top;
-         int8192_t length_of_array;
-         int8192_t array [length_of_array];
+        int8192_t top;
+        int8192_t length_of_array;
+        int8192_t array [length_of_array];
     };
 
     typedef struct queue{
-         int8192_t front;
-         int8192_t back;
-         int8192_t length_of_array;
-         int8192_t array [length_of_array];
+        int8192_t front;
+        int8192_t back;
+        int8192_t length_of_array;
+        int8192_t array [length_of_array];
     };
 }

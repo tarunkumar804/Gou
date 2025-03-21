@@ -2,17 +2,14 @@ class sampling{
     
     double* fourier_transform(double *wave_levels)
     {
-        /**
-         * @param wave_level - voltage level of wave
-         */
+        /** Function to perform Fast Fourier Transform.
+        * @param wave_levels - voltage levels of wave.
+        */
 
         double samples[sizeof(wave_levels)];
-        
-        for (int i = 0; i < sizeof(wave_levels); i++)
-        {
-            samples[i] = wave_levels[i] - 0;
-        }
 
+        for (int i = 0; i < sizeof(wave_levels); i++)
+            samples[i] = wave_levels[i] - 0;
         return samples;
     }
 

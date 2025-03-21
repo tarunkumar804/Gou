@@ -1,7 +1,7 @@
 namespace peripherals {
     typedef struct usb {
          uint8192_t number_of_usb_devices;
-         uint8192_t usb_device_addresses [number_of_usb_devices];
+         uint8192_t usb_device_addresses [number_of_usb_devices]; //Mount points of USB devices.
     };
     
    typedef struct mouse{

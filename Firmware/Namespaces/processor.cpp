@@ -20,8 +20,8 @@ namespace processor{
        char *timezone;
    };
 
-   typedef struct cache_block{
-      char *address_of_entry_point;
+   typedef struct cache_block{ // A block in RAM that can be used to store data in local caches.
+      char *address_of_entry_point; //Mount point of cache.
       char *data;
    };
 }

@@ -19,4 +19,9 @@ namespace gpu{
         int1024_t pcie_ids[number_of_gpus]; //Container for PCIE ids
         uint1024_t pcie_address[number_of_gpus]; //Container for PCIE addresses in RAM.
     };
+
+    typedef struct gpu_cluster{
+        uint8192_t number_of_gpus;
+        uint8192_t mount_points_of_gpus[number_of_gpus];
+    };
 }

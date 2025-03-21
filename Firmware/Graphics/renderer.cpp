@@ -12,6 +12,9 @@ class Renderer {
     public:
         bool draw_window(uint2048_t number_of_rows, uint2048_t number_of_columns, uint8192_t mount_point_of_GPU, uint8192_t display_port_address)
         {
+            /** A function to draw a window on the display.
+            * 
+            */
             bool window_drawn = false;
             uint3072_t  window[number_of_rows][number_of_columns];
             for (uint2048_t i = 0; i < number_of_rows; i++)
