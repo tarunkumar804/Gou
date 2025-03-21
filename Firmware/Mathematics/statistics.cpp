@@ -17,7 +17,6 @@ class statistics{
                sum = sum + ((set[i] - mean) * (set[i] - mean));
            double8192_t intermediate_result = sum/sizeof(set);
            
-            
            return standard_deviation;
        }
 };
