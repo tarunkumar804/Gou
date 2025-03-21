@@ -1,6 +1,6 @@
-class distributions{
+class binomial_distribution{
     public:
-        double* binomial_distribution (double set[], double value_to_search_for, long number_of_iteraions)
+        double* pmf (double set[], double value_to_search_for, long number_of_iteraions)
         {
             long count = 0, ncr = 1, p = 1, q = 0, iteration = 0;
             double result[sizeof(set)];
@@ -36,5 +36,19 @@ class distributions{
             }while(iteration < number_of_iteraions);
 
             return result;
+        }
+
+        double mean (double set[], double value_to_search_for ,long n)
+        {
+            long count = 0;
+            double p = 0, mean = 0;
+
+            for (long l = 0; l < sizeof(set); l++)
+                if (set[l] == value_to_search_for)
+                    count++;
+
+            p = count/sizeof(set);
+
+            return mean;
         }
 };
