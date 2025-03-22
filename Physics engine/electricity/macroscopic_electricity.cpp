@@ -11,4 +11,10 @@ class electricity{
             uint8192_t current = speed_of_flow * voltage;
             return current;
         }
+
+        uint8192_t emf (uint8192_t current, uint8192_t radius_of_influence)
+        {
+            uint8192_t emf = current * radius_of_influence;
+            return emf;
+        }
 };
