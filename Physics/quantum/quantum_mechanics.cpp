@@ -23,7 +23,6 @@ class quantum_mechanics{
                     particle_energies[0] = particle_energies[0] + rate_of_loss_of_energy;
                 }
             }
-
             return true;
         }
 };
