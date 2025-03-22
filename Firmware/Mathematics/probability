@@ -1,25 +1,63 @@
 #include <vector>
 #include <map>
+#include <set>
 #include <stdexcept>
+#include <numeric>
+#include <algorithm>
+#include <cmath>
+#include <random>
+#include <chrono>
+#include <functional>
+#include <iostream>
 
 class probability {
+private:
+    // Random number generator seeded with current time for sampling
+    std::mt19937 rng{static_cast<unsigned>(std::chrono::steady_clock::now().time_since_epoch().count())};
+
+    // Helper function to validate that probabilities sum to 1 (within a small epsilon)
+    bool validate_probabilities(const std::vector<double>& probs, double epsilon = 1e-10) const {
+        double sum = std::accumulate(probs.begin(), probs.end(), 0.0);
+        return std::abs(sum - 1.0) < epsilon;
+    }
+
+    // Helper function to ensure a probability value is between 0 and 1
+    void validate_probability(double p) const {
+        if (p < 0.0 || p > 1.0) {
+            throw std::invalid_argument("Probability must be between 0 and 1.");
+        }
+    }
+
 public:
-    // Expectation: Expected value of a discrete random variable
+    // **Basic Statistical Measures**
+    /** 
+     * Calculates the expected value (mean) of a discrete random variable.
+     * @param values Vector of possible values
+     * @param probabilities Corresponding probabilities
+     * @return Expected value
+     */
     double expectation(const std::vector<double>& values, const std::vector<double>& probabilities) const {
         if (values.size() != probabilities.size()) {
             throw std::invalid_argument("Values and probabilities must have the same size.");
         }
-        double sum = 0.0;
-        for (size_t i = 0; i < values.size(); ++i) {
-            sum += values[i] * probabilities[i];
+        if (!validate_probabilities(probabilities)) {
+            throw std::invalid_argument("Probabilities must sum to 1.");
         }
-        return sum;
+        return std::inner_product(values.begin(), values.end(), probabilities.begin(), 0.0);
     }
 
-    // Variance: Variance of a discrete random variable
+    /** 
+     * Calculates the variance of a discrete random variable.
+     * @param values Vector of possible values
+     * @param probabilities Corresponding probabilities
+     * @return Variance
+     */
     double variance(const std::vector<double>& values, const std::vector<double>& probabilities) const {
         if (values.size() != probabilities.size()) {
             throw std::invalid_argument("Values and probabilities must have the same size.");
+        }
+        if (!validate_probabilities(probabilities)) {
+            throw std::invalid_argument("Probabilities must sum to 1.");
         }
         double mu = expectation(values, probabilities);
         double sum = 0.0;
@@ -30,7 +68,64 @@ public:
         return sum;
     }
 
-    // Probability Mass Function (PMF): Empirical probability distribution
+    /** 
+     * Calculates the standard deviation of a discrete random variable.
+     * @param values Vector of possible values
+     * @param probabilities Corresponding probabilities
+     * @return Standard deviation
+     */
+    double standard_deviation(const std::vector<double>& values, const std::vector<double>& probabilities) const {
+        return std::sqrt(variance(values, probabilities));
+    }
+
+    /** 
+     * Calculates the covariance between two random variables.
+     * @param x First vector of values
+     * @param y Second vector of values
+     * @param probabilities Corresponding joint probabilities
+     * @return Covariance
+     */
+    double covariance(const std::vector<double>& x, const std::vector<double>& y, 
+                     const std::vector<double>& probabilities) const {
+        if (x.size() != y.size() || x.size() != probabilities.size()) {
+            throw std::invalid_argument("All vectors must have the same size.");
+        }
+        if (!validate_probabilities(probabilities)) {
+            throw std::invalid_argument("Probabilities must sum to 1.");
+        }
+        double ex = expectation(x, probabilities);
+        double ey = expectation(y, probabilities);
+        double sum = 0.0;
+        for (size_t i = 0; i < x.size(); ++i) {
+            sum += (x[i] - ex) * (y[i] - ey) * probabilities[i];
+        }
+        return sum;
+    }
+
+    /** 
+     * Calculates the correlation coefficient between two random variables.
+     * @param x First vector of values
+     * @param y Second vector of values
+     * @param probabilities Corresponding joint probabilities
+     * @return Correlation coefficient
+     */
+    double correlation(const std::vector<double>& x, const std::vector<double>& y, 
+                      const std::vector<double>& probabilities) const {
+        double cov = covariance(x, y, probabilities);
+        double std_x = standard_deviation(x, probabilities);
+        double std_y = standard_deviation(y, probabilities);
+        if (std_x == 0 || std_y == 0) {
+            throw std::runtime_error("Cannot compute correlation with zero standard deviation.");
+        }
+        return cov / (std_x * std_y);
+    }
+
+    // **Distribution Functions**
+    /** 
+     * Computes the empirical Probability Mass Function (PMF) from a dataset.
+     * @param set Input data vector
+     * @return Map of values to their probabilities
+     */
     std::map<double, double> pmf(const std::vector<double>& set) const {
         if (set.empty()) {
             throw std::invalid_argument("Cannot compute PMF of an empty set.");
@@ -47,31 +142,307 @@ public:
         return pmf;
     }
 
-    // Cumulative Distribution Function (CDF): Cumulative probabilities
+    /** 
+     * Computes the Cumulative Distribution Function (CDF) from a dataset.
+     * @param set Input data vector
+     * @return Map of values to their cumulative probabilities
+     */
     std::map<double, double> cdf(const std::vector<double>& set) const {
         auto pmf_map = pmf(set);
         std::map<double, double> cdf_map;
         double cumulative = 0.0;
         for (const auto& pair : pmf_map) {
             cumulative += pair.second;
-            cdf_map[pair.first] = cumulative;
+            cdf_map[pair.first] = std::min(1.0, cumulative); // Cap at 1 to avoid rounding errors
         }
         return cdf_map;
     }
 
-    // Conditional Probability: P(A|B) = P(A and B) / P(B)
+    // **Probability Calculations**
+    /** 
+     * Computes conditional probability P(A|B) = P(A and B) / P(B).
+     * @param prob_A_and_B Joint probability of A and B
+     * @param prob_B Probability of B
+     * @return Conditional probability
+     */
     double conditional_probability(double prob_A_and_B, double prob_B) const {
+        validate_probability(prob_A_and_B);
+        validate_probability(prob_B);
         if (prob_B == 0.0) {
             throw std::invalid_argument("P(B) cannot be zero in conditional probability.");
+        }
+        if (prob_A_and_B > prob_B) {
+            throw std::invalid_argument("P(A and B) cannot exceed P(B).");
         }
         return prob_A_and_B / prob_B;
     }
 
-    // Bayes' Theorem: P(A|B) = [P(B|A) * P(A)] / P(B)
+    /** 
+     * Applies Bayes' theorem: P(A|B) = [P(B|A) * P(A)] / P(B).
+     * @param prob_B_given_A Probability of B given A
+     * @param prob_A Probability of A
+     * @param prob_B Probability of B
+     * @return Posterior probability
+     */
     double bayes_theorem(double prob_B_given_A, double prob_A, double prob_B) const {
+        validate_probability(prob_B_given_A);
+        validate_probability(prob_A);
+        validate_probability(prob_B);
         if (prob_B == 0.0) {
             throw std::invalid_argument("P(B) cannot be zero in Bayes' theorem.");
         }
         return (prob_B_given_A * prob_A) / prob_B;
+    }
+
+    // **Distribution Sampling Functions**
+    /** 
+     * Generates a random sample from a uniform distribution.
+     * @param min Lower bound
+     * @param max Upper bound
+     * @return Random sample
+     */
+    double uniform_sample(double min, double max) {
+        std::uniform_real_distribution<double> dist(min, max);
+        return dist(rng);
+    }
+
+    /** 
+     * Generates a random sample from a normal distribution.
+     * @param mean Mean of the distribution
+     * @param stddev Standard deviation
+     * @return Random sample
+     */
+    double normal_sample(double mean, double stddev) {
+        std::normal_distribution<double> dist(mean, stddev);
+        return dist(rng);
+    }
+
+    /** 
+     * Generates a random sample from an exponential distribution.
+     * @param lambda Rate parameter
+     * @return Random sample
+     */
+    double exponential_sample(double lambda) {
+        std::exponential_distribution<double> dist(lambda);
+        return dist(rng);
+    }
+
+    /** 
+     * Generates multiple samples from a specified distribution.
+     * @param n Number of samples
+     * @param distribution Type ("uniform", "normal", "exponential")
+     * @param param1 First parameter (e.g., min for uniform, mean for normal, lambda for exponential)
+     * @param param2 Second parameter (e.g., max for uniform, stddev for normal)
+     * @return Vector of samples
+     */
+    std::vector<double> generate_samples(size_t n, const std::string& distribution, 
+                                       double param1, double param2 = 0.0) {
+        std::vector<double> samples(n);
+        if (distribution == "uniform") {
+            std::uniform_real_distribution<double> dist(param1, param2);
+            for (size_t i = 0; i < n; ++i) samples[i] = dist(rng);
+        } else if (distribution == "normal") {
+            std::normal_distribution<double> dist(param1, param2);
+            for (size_t i = 0; i < n; ++i) samples[i] = dist(rng);
+        } else if (distribution == "exponential") {
+            std::exponential_distribution<double> dist(param1);
+            for (size_t i = 0; i < n; ++i) samples[i] = dist(rng);
+        } else {
+            throw std::invalid_argument("Unsupported distribution type.");
+        }
+        return samples;
+    }
+
+    // **Statistical Moments**
+    /** 
+     * Calculates skewness of a distribution.
+     * @param values Vector of possible values
+     * @param probabilities Corresponding probabilities
+     * @return Skewness
+     */
+    double skewness(const std::vector<double>& values, const std::vector<double>& probabilities) const {
+        double mu = expectation(values, probabilities);
+        double sigma = standard_deviation(values, probabilities);
+        if (sigma == 0) {
+            throw std::runtime_error("Cannot compute skewness with zero standard deviation.");
+        }
+        double sum = 0.0;
+        for (size_t i = 0; i < values.size(); ++i) {
+            double diff = (values[i] - mu) / sigma;
+            sum += diff * diff * diff * probabilities[i];
+        }
+        return sum;
+    }
+
+    /** 
+     * Calculates excess kurtosis of a distribution (relative to normal distribution).
+     * @param values Vector of possible values
+     * @param probabilities Corresponding probabilities
+     * @return Excess kurtosis
+     */
+    double kurtosis(const std::vector<double>& values, const std::vector<double>& probabilities) const {
+        double mu = expectation(values, probabilities);
+        double sigma = standard_deviation(values, probabilities);
+        if (sigma == 0) {
+            throw std::runtime_error("Cannot compute kurtosis with zero standard deviation.");
+        }
+        double sum = 0.0;
+        for (size_t i = 0; i < values.size(); ++i) {
+            double diff = (values[i] - mu) / sigma;
+            sum += diff * diff * diff * diff * probabilities[i];
+        }
+        return sum - 3.0; // Excess kurtosis
+    }
+
+    // **Entropy and Information Theory**
+    /** 
+     * Calculates Shannon entropy in bits (base-2 logarithm).
+     * @param probabilities Vector of probabilities
+     * @return Entropy
+     */
+    double shannon_entropy(const std::vector<double>& probabilities) const {
+        if (!validate_probabilities(probabilities)) {
+            throw std::invalid_argument("Probabilities must sum to 1.");
+        }
+        double entropy = 0.0;
+        for (double p : probabilities) {
+            if (p > 0) entropy -= p * std::log2(p);
+        }
+        return entropy;
+    }
+
+    /** 
+     * Calculates mutual information between two random variables.
+     * @param joint_probs 2D vector of joint probabilities
+     * @param marginal_x Marginal probabilities of X
+     * @param marginal_y Marginal probabilities of Y
+     * @return Mutual information in bits
+     */
+    double mutual_information(const std::vector<std::vector<double>>& joint_probs, 
+                            const std::vector<double>& marginal_x, 
+                            const std::vector<double>& marginal_y) const {
+        if (joint_probs.empty() || marginal_x.empty() || marginal_y.empty()) {
+            throw std::invalid_argument("Probability vectors cannot be empty.");
+        }
+        size_t n = marginal_x.size(), m = marginal_y.size();
+        if (joint_probs.size() != n || joint_probs[0].size() != m) {
+            throw std::invalid_argument("Joint probability matrix dimensions mismatch.");
+        }
+        double mi = 0.0;
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                double p_xy = joint_probs[i][j];
+                double p_x = marginal_x[i];
+                double p_y = marginal_y[j];
+                if (p_xy > 0 && p_x > 0 && p_y > 0) {
+                    mi += p_xy * std::log2(p_xy / (p_x * p_y));
+                }
+            }
+        }
+        return mi;
+    }
+
+    // **Hypothesis Testing**
+    /** 
+     * Performs a chi-square test for goodness of fit.
+     * @param observed Observed frequencies
+     * @param expected Expected frequencies
+     * @return Chi-square statistic
+     */
+    double chi_square_test(const std::vector<double>& observed, const std::vector<double>& expected) const {
+        if (observed.size() != expected.size()) {
+            throw std::invalid_argument("Observed and expected vectors must have the same size.");
+        }
+        double chi2 = 0.0;
+        for (size_t i = 0; i < observed.size(); ++i) {
+            if (expected[i] == 0) {
+                throw std::invalid_argument("Expected value cannot be zero.");
+            }
+            double diff = observed[i] - expected[i];
+            chi2 += (diff * diff) / expected[i];
+        }
+        return chi2;
+    }
+
+    // **Confidence Intervals**
+    /** 
+     * Computes a confidence interval for a normal distribution mean (default 95%).
+     * @param mean Sample mean
+     * @param stddev Sample standard deviation
+     * @param n Sample size
+     * @param confidence Confidence level (e.g., 0.95)
+     * @return Pair of lower and upper bounds
+     */
+    std::pair<double, double> confidence_interval_normal(double mean, double stddev, size_t n, double confidence = 0.95) const {
+        if (n == 0) {
+            throw std::invalid_argument("Sample size cannot be zero.");
+        }
+        double z = 1.96; // For 95% confidence; could be parameterized for other levels
+        double margin = z * (stddev / std::sqrt(static_cast<double>(n)));
+        return {mean - margin, mean + margin};
+    }
+
+    // **Regression**
+    /** 
+     * Performs simple linear regression (y = slope * x + intercept).
+     * @param x Independent variable values
+     * @param y Dependent variable values
+     * @return Pair of slope and intercept
+     */
+    std::pair<double, double> linear_regression(const std::vector<double>& x, const std::vector<double>& y) const {
+        if (x.size() != y.size() || x.empty()) {
+            throw std::invalid_argument("Input vectors must be non-empty and of equal size.");
+        }
+        size_t n = x.size();
+        double sum_x = std::accumulate(x.begin(), x.end(), 0.0);
+        double sum_y = std::accumulate(y.begin(), y.end(), 0.0);
+        double sum_xy = std::inner_product(x.begin(), x.end(), y.begin(), 0.0);
+        double sum_x2 = std::inner_product(x.begin(), x.end(), x.begin(), 0.0);
+        double denominator = n * sum_x2 - sum_x * sum_x;
+        if (denominator == 0) {
+            throw std::runtime_error("Cannot compute regression: denominator is zero.");
+        }
+        double slope = (n * sum_xy - sum_x * sum_y) / denominator;
+        double intercept = (sum_y - slope * sum_x) / n;
+        return {slope, intercept};
+    }
+
+    // **Utility Functions**
+    /** 
+     * Computes the factorial of a number.
+     * @param n Non-negative integer
+     * @return Factorial
+     */
+    double factorial(size_t n) const {
+        if (n == 0) return 1.0;
+        double result = 1.0;
+        for (size_t i = 1; i <= n; ++i) result *= static_cast<double>(i);
+        return result;
+    }
+
+    /** 
+     * Computes combinations (n choose k).
+     * @param n Total items
+     * @param k Items to choose
+     * @return Number of combinations
+     */
+    double combination(size_t n, size_t k) const {
+        if (k > n) {
+            throw std::invalid_argument("k cannot be greater than n in combination.");
+        }
+        return factorial(n) / (factorial(k) * factorial(n - k));
+    }
+
+    /** 
+     * Computes permutations (n P k).
+     * @param n Total items
+     * @param k Items to arrange
+     * @return Number of permutations
+     */
+    double permutation(size_t n, size_t k) const {
+        if (k > n) {
+            throw std::invalid_argument("k cannot be greater than n in permutation.");
+        }
+        return factorial(n) / factorial(n - k);
     }
 };
