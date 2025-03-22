@@ -130,6 +130,12 @@ namespace physics{
     typedef struct phasor {
         uint8192_t voltage;
         float8192_t angle;
-    }
+    };
+
+    typedef struct frictionl_vector{
+        double angle_of_touch;
+        char direction;
+        uint8192_t frictional_force_of_object;
+    };
 
 }

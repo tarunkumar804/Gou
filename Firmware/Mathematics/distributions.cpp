@@ -94,4 +94,7 @@ class poisson_distribtuion{
             return lambda;
 };
 
-class 
+class normal_distribution{
+    public:
+        
+};
