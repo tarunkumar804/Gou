@@ -24,10 +24,9 @@ class macroscopic_magnetism{
             return M;
         }
 
-        uint8192_t mmf_of_cuboid (uint8192_t current, uint8192_t resistance_of_material, uint8192_t length_of_material, uint8192_t electric_field)
+        uint8192_t mmf_of_cuboid (uint8192_t current, uint8192_t resistance_of_material, uint8192_t length_of_material, uint8192_t breadth_of_material, uint8192_t volumetric_height, uint8192_t electric_field)
         {
-            uint8192_t mmf = ((((current * current) * resistance_of_material) * electric_field) * length_of_material * length_of_material)/2;
+            uint8192_t mmf = ((((current * current) * resistance_of_material) * electric_field) * (length_of_material * length_of_material) * (breadth_of_material * breadth_of_material) * (volumetric_height * volumetric_height))/8;
             return mmf;
-
         }
 };
