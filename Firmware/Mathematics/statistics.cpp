@@ -1,55 +1,133 @@
-class statistics{
-    public:
-       double8192_t mean (double8192_t set[])
-       {
-          double8192_t mean = 0, sum = 0;
-          for (long long int i = 0; i < sizeof(set); i++)
-               sum = sum + set [i];
-          mean = sum/sizeof(set);
-          return mean;
-       }
-       
-       double8192_t standard_deviation (double8192_t set[])
-       {
-           double8192_t mean = mean(set), sum = 0, standard_deviation = 0;
-           
-           for (long long int i = 0; i < sizeof(set); i++)
-               sum = sum + ((set[i] - mean) * (set[i] - mean));
-           double8192_t intermediate_result = sum/sizeof(set);
-           
-           return standard_deviation;
-       }
-};
+#include <vector>
+#include <cmath>
+#include <stdexcept>
+#include <algorithm>
+#include <map>
 
-class probability {
-    public:
-        float8192_t expectation (double8192_t set[], double8192_t A)
-        {
-            // Explanation of function : E(X = A) = sum (xi * pi)
-            float8192_t X_PX_array [sizeof(set)], P_X, E_X = 0;
-            int8192_t count = 0;
+class statistics {
+public:
+    // Mean: Arithmetic average of the set
+    double mean(const std::vector<double>& set) const {
+        if (set.empty()) {
+            throw std::invalid_argument("Cannot compute mean of an empty set.");
+        }
+        double sum = 0.0;
+        for (const auto& val : set) {
+            sum += val;
+        }
+        return sum / static_cast<double>(set.size());
+    }
 
-            for (int8192_t i = 0; i < sizeof (set); i++)
-            {
-                for (int8192_t j = 0; j < sizeof (set); j++)
-                {
-                    if (set[i] == set[j])
-                        count++;
-                }
-                P_X = count/sizeof(set);
-                E_X_array[i] = set[i] * P_X;
-                P_X = 0;
+    // Standard Deviation: Sample standard deviation
+    double standard_deviation(const std::vector<double>& set) const {
+        if (set.size() < 2) {
+            throw std::invalid_argument("Standard deviation requires at least two elements.");
+        }
+        double mu = mean(set);
+        double sum_sq_diff = 0.0;
+        for (const auto& val : set) {
+            double diff = val - mu;
+            sum_sq_diff += diff * diff;
+        }
+        double variance = sum_sq_diff / static_cast<double>(set.size() - 1);
+        return std::sqrt(variance);
+    }
+
+    // Variance: Sample variance
+    double variance(const std::vector<double>& set) const {
+        if (set.size() < 2) {
+            throw std::invalid_argument("Variance requires at least two elements.");
+        }
+        double mu = mean(set);
+        double sum_sq_diff = 0.0;
+        for (const auto& val : set) {
+            double diff = val - mu;
+            sum_sq_diff += diff * diff;
+        }
+        return sum_sq_diff / static_cast<double>(set.size() - 1);
+    }
+
+    // Median: Middle value of the sorted set
+    double median(std::vector<double> set) const {
+        if (set.empty()) {
+            throw std::invalid_argument("Cannot compute median of an empty set.");
+        }
+        std::sort(set.begin(), set.end());
+        size_t n = set.size();
+        if (n % 2 == 0) {
+            return (set[n / 2 - 1] + set[n / 2]) / 2.0;
+        } else {
+            return set[n / 2];
+        }
+    }
+
+    // Mode: Most frequent value(s) in the set
+    std::vector<double> mode(const std::vector<double>& set) const {
+        if (set.empty()) {
+            throw std::invalid_argument("Cannot compute mode of an empty set.");
+        }
+        std::map<double, size_t> freq;
+        for (const auto& val : set) {
+            freq[val]++;
+        }
+        size_t max_count = 0;
+        for (const auto& pair : freq) {
+            max_count = std::max(max_count, pair.second);
+        }
+        std::vector<double> modes;
+        for (const auto& pair : freq) {
+            if (pair.second == max_count) {
+                modes.push_back(pair.first);
             }
-     
-            for (int8192_t i = 0; i < sizeof (E_X_array); i++)
-                E_X = E_X + X_PX_array[i];
-            return E_X;
         }
+        return modes;
+    }
 
-        double8192_t variance (double8192_t A)
-        {
-            // Explanation of function : V(X = A) = E(X^2) - E(X)
-            double8129_t V_X = (expectation(A) * expectation (A)) - expectation (A);
-            return V_X;
+    // Range: Difference between maximum and minimum values
+    double range(const std::vector<double>& set) const {
+        if (set.empty()) {
+            throw std::invalid_argument("Cannot compute range of an empty set.");
         }
+        auto [min_it, max_it] = std::minmax_element(set.begin(), set.end());
+        return *max_it - *min_it;
+    }
+
+    // Skewness: Measure of the asymmetry of the distribution
+    double skewness(const std::vector<double>& set) const {
+        if (set.size() < 3) {
+            throw std::invalid_argument("Skewness requires at least three elements.");
+        }
+        double mu = mean(set);
+        double sum_cubed_diff = 0.0;
+        double sum_sq_diff = 0.0;
+        for (const auto& val : set) {
+            double diff = val - mu;
+            sum_cubed_diff += diff * diff * diff;
+            sum_sq_diff += diff * diff;
+        }
+        double n = static_cast<double>(set.size());
+        double m3 = sum_cubed_diff / n;
+        double m2 = sum_sq_diff / n;
+        return (m3 / std::pow(m2, 1.5)) * (n / (n - 1) / (n - 2));
+    }
+
+    // Kurtosis: Measure of the "tailedness" of the distribution
+    double kurtosis(const std::vector<double>& set) const {
+        if (set.size() < 4) {
+            throw std::invalid_argument("Kurtosis requires at least four elements.");
+        }
+        double mu = mean(set);
+        double sum_fourth_diff = 0.0;
+        double sum_sq_diff = 0.0;
+        for (const auto& val : set) {
+            double diff = val - mu;
+            sum_fourth_diff += diff * diff * diff * diff;
+            sum_sq_diff += diff * diff;
+        }
+        double n = static_cast<double>(set.size());
+        double m4 = sum_fourth_diff / n;
+        double m2 = sum_sq_diff / n;
+        return (m4 / (m2 * m2)) * (n * (n + 1) / ((n - 1) * (n - 2) * (n - 3))) -
+               3.0 * (n - 1) * (n - 1) / ((n - 2) * (n - 3));
+    }
 };
