@@ -1,0 +1,77 @@
+#include <vector>
+#include <map>
+#include <stdexcept>
+
+class probability {
+public:
+    // Expectation: Expected value of a discrete random variable
+    double expectation(const std::vector<double>& values, const std::vector<double>& probabilities) const {
+        if (values.size() != probabilities.size()) {
+            throw std::invalid_argument("Values and probabilities must have the same size.");
+        }
+        double sum = 0.0;
+        for (size_t i = 0; i < values.size(); ++i) {
+            sum += values[i] * probabilities[i];
+        }
+        return sum;
+    }
+
+    // Variance: Variance of a discrete random variable
+    double variance(const std::vector<double>& values, const std::vector<double>& probabilities) const {
+        if (values.size() != probabilities.size()) {
+            throw std::invalid_argument("Values and probabilities must have the same size.");
+        }
+        double mu = expectation(values, probabilities);
+        double sum = 0.0;
+        for (size_t i = 0; i < values.size(); ++i) {
+            double diff = values[i] - mu;
+            sum += diff * diff * probabilities[i];
+        }
+        return sum;
+    }
+
+    // Probability Mass Function (PMF): Empirical probability distribution
+    std::map<double, double> pmf(const std::vector<double>& set) const {
+        if (set.empty()) {
+            throw std::invalid_argument("Cannot compute PMF of an empty set.");
+        }
+        std::map<double, size_t> freq;
+        for (const auto& val : set) {
+            freq[val]++;
+        }
+        std::map<double, double> pmf;
+        double n = static_cast<double>(set.size());
+        for (const auto& pair : freq) {
+            pmf[pair.first] = static_cast<double>(pair.second) / n;
+        }
+        return pmf;
+    }
+
+    // Cumulative Distribution Function (CDF): Cumulative probabilities
+    std::map<double, double> cdf(const std::vector<double>& set) const {
+        auto pmf_map = pmf(set);
+        std::map<double, double> cdf_map;
+        double cumulative = 0.0;
+        for (const auto& pair : pmf_map) {
+            cumulative += pair.second;
+            cdf_map[pair.first] = cumulative;
+        }
+        return cdf_map;
+    }
+
+    // Conditional Probability: P(A|B) = P(A and B) / P(B)
+    double conditional_probability(double prob_A_and_B, double prob_B) const {
+        if (prob_B == 0.0) {
+            throw std::invalid_argument("P(B) cannot be zero in conditional probability.");
+        }
+        return prob_A_and_B / prob_B;
+    }
+
+    // Bayes' Theorem: P(A|B) = [P(B|A) * P(A)] / P(B)
+    double bayes_theorem(double prob_B_given_A, double prob_A, double prob_B) const {
+        if (prob_B == 0.0) {
+            throw std::invalid_argument("P(B) cannot be zero in Bayes' theorem.");
+        }
+        return (prob_B_given_A * prob_A) / prob_B;
+    }
+};
