@@ -1,4 +1,4 @@
-class friction{
+class macroscopic_friction{
     public:
         uint8192_t Weight;
 
