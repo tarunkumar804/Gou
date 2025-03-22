@@ -1,100 +1,80 @@
-class binomial_distribution{
-    public:
-        double* pmf (double set[], double value_to_search_for, long number_of_iteraions)
-        {
-            long count = 0, ncr = 1, p = 1, q = 0, iteration = 0;
-            double result[sizeof(set)];
+#include <cmath>
+#include <vector>
+#include <cstdint>
+#include <stdexcept>
 
-            do{
-                if (iteration == 0)
-                {
-                    q = 1-p;
-
-                    for (long l = 0; l < sizeof(set) - iteration; l++)
-                        q = q * q;
-                    result[iteration] = 1 * p * q;
-                }
-
-                else if (iteration > 0)
-                {
-                    for (long l = 0; l < sizeof(set); l++)
-                        if (set[l] == value_to_search_for)
-                            count++;
-                    p = count/sizeof(set);
-                    q = 1 - p;
-
-                    for (long l = 0; l < iteration; l++)
-                        p = p * p;
-                    for (long l = 0; l < sizeof(set) - iteration; l++)
-                        q = q * q;
-                    ncr = combination(number_of_iteraions, iteration);
-                    result [iteration] = ncr * p * q;
-                }
-
-                iteration ++;
-
-            }while(iteration < number_of_iteraions);
-
-            return result;
+class binomial_distribution {
+public:
+    // Constructor: Initialize with number of trials (n) and probability of success (p)
+    binomial_distribution(uint64_t n, double p) : n_(n), p_(p) {
+        if (p < 0.0 || p > 1.0) {
+            throw std::invalid_argument("Probability p must be between 0 and 1.");
         }
+    }
 
-        double mean (double set[], double value_to_search_for)
-        {
-            long count = 0;
-            double p = 0, mean = 0;
+    // Probability Mass Function: P(X = k)
+    double pmf(uint64_t k) const {
+        if (k > n_) return 0.0;
+        double coeff = binom_coeff(n_, k);
+        return coeff * std::pow(p_, static_cast<double>(k)) * std::pow(1.0 - p_, static_cast<double>(n_ - k));
+    }
 
-            for (long l = 0; l < sizeof(set); l++)
-                if (set[l] == value_to_search_for)
-                    count++;
-
-            p = count/sizeof(set);
-
-            return mean;
+    // Cumulative Distribution Function: P(X <= k)
+    double cdf(uint64_t k) const {
+        if (k >= n_) return 1.0;
+        double sum = 0.0;
+        for (uint64_t i = 0; i <= k; ++i) {
+            sum += pmf(i);
         }
+        return sum;
+    }
 
-        double variance (double set[], double value_to_search_for)
-        {
-            long count = 0;
-            double p = 0, q = 0, variance = 0;
+    // Mean: n * p
+    double mean() const {
+        return static_cast<double>(n_) * p_;
+    }
 
-            for (long l = 0; l < sizeof(set); l++)
-                if (set[l] == value_to_search_for)
-                    count ++;
-            p = count/sizeof(set);
-            q = 1 - p;
-            variance = sizeof(set) * p * q;
+    // Variance: n * p * (1 - p)
+    double variance() const {
+        return static_cast<double>(n_) * p_ * (1.0 - p_);
+    }
 
-            return variance;
+    // Skewness: (1 - 2p) / sqrt(n * p * (1 - p))
+    double skewness() const {
+        return (1.0 - 2.0 * p_) / std::sqrt(static_cast<double>(n_) * p_ * (1.0 - p_));
+    }
+
+    // Excess Kurtosis: (1 - 6p(1 - p)) / (n * p * (1 - p))
+    double excess_kurtosis() const {
+        return (1.0 - 6.0 * p_ * (1.0 - p_)) / (static_cast<double>(n_) * p_ * (1.0 - p_));
+    }
+
+    // Full Kurtosis: 3 + excess kurtosis
+    double kurtosis() const {
+        return 3.0 + excess_kurtosis();
+    }
+
+    // Generate a vector of PMF values for k = 0 to n
+    std::vector<double> pmf_vector() const {
+        std::vector<double> result(n_ + 1);
+        for (uint64_t k = 0; k <= n_; ++k) {
+            result[k] = pmf(k);
         }
-};
+        return result;
+    }
 
-class poisson_distribtuion{
-    protected:
-        double8192_t e;
+private:
+    uint64_t n_; // Number of trials
+    double p_;   // Probability of success
 
-    public:
-        poisson_distribtuion(uint8192_t precision)
-        {
-            e = e_calculation(precision);
+    // Binomial coefficient: n choose k
+    double binom_coeff(uint64_t n, uint64_t k) const {
+        if (k > n) return 0.0;
+        double result = 1.0;
+        k = std::min(k, n - k); // Optimize by using symmetry
+        for (uint64_t i = 1; i <= k; ++i) {
+            result *= static_cast<double>(n - k + i) / static_cast<double>(i);
         }
-
-        double8192_t pmf (double8192_t lambda, double8192_t k)
-        {
-            double8192_t lambda_k = exponentiation(lambda,k);
-            double8192_t lambda_negativek = fractional_exponentiation(lambda,k);
-            double8192_t k_factorial = factorial(k);
-
-            double8192_t result = (lambda_k * lambda_negativek) / k_factorial;
-            return result;
-        }
-
-        double8192_t expectation (double8192_t lambda)
-            return lambda;
-        double8192_t variance (double812_t lambda)
-            return lambda;
-};
-
-class normal_distribution{
-    public:
-        
+        return result;
+    }
 };
