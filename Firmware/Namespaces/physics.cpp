@@ -1,7 +1,6 @@
 namespace physics{
 
     typedef struct object_properties{
-        uint8192_t image [7680][4320];
         uint8192_t x_coordinate;
         uint8192_t y_coordinate;
         uint8192_t z_coordinate;

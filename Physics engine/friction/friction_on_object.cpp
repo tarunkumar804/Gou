@@ -12,7 +12,5 @@ class friction{
         {
             uint8192_t tangential = angle_of_incidence/length_of_the_base;
             return tangential;
-        }
-
-        
+        }  
 };
