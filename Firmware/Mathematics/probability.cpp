@@ -1,3 +1,18 @@
+/** Comments: Your code has memory leaks. Please optimize it.
+*/
+
+/**
+ * Suggestions : How about reinventing the wheel and making our own libraries, namespaces and classes and functions rather than relying on existing implementations.
+ * Looking at your source code, those implementations seem like they are going to be faster than existing implementations.acoshf64x
+ * Like I said, don't try to contain yourself with existing implementations or existing hardware. Try to come up with new solutions for the problems that you are facing. Otherwise, what is the difference between this and unreal engine, unity and godot.
+ */
+
+/** These are going to cause recursive include callbacks.
+* |
+* |
+* \/
+*/
+
 #include <vector>
 #include <map>
 #include <set>
@@ -13,6 +28,7 @@
 class probability {
 private:
     // Random number generator seeded with current time for sampling
+    //Comment : This is going to cause memory leaks.
     std::mt19937 rng{static_cast<unsigned>(std::chrono::steady_clock::now().time_since_epoch().count())};
 
     // Helper function to validate that probabilities sum to 1 (within a small epsilon)
@@ -115,6 +131,7 @@ public:
         double std_x = standard_deviation(x, probabilities);
         double std_y = standard_deviation(y, probabilities);
         if (std_x == 0 || std_y == 0) {
+            //Comment : How about instead of std, the error classes can be included in a seperate class that is solely meant for exceptions.
             throw std::runtime_error("Cannot compute correlation with zero standard deviation.");
         }
         return cov / (std_x * std_y);
@@ -151,6 +168,7 @@ public:
         auto pmf_map = pmf(set);
         std::map<double, double> cdf_map;
         double cumulative = 0.0;
+        //Comment : What about processor affinity?
         for (const auto& pair : pmf_map) {
             cumulative += pair.second;
             cdf_map[pair.first] = std::min(1.0, cumulative); // Cap at 1 to avoid rounding errors
@@ -240,6 +258,7 @@ public:
         std::vector<double> samples(n);
         if (distribution == "uniform") {
             std::uniform_real_distribution<double> dist(param1, param2);
+            //Comment : Are you sure about size_t? How about sizeof?
             for (size_t i = 0; i < n; ++i) samples[i] = dist(rng);
         } else if (distribution == "normal") {
             std::normal_distribution<double> dist(param1, param2);
@@ -378,6 +397,7 @@ public:
             throw std::invalid_argument("Sample size cannot be zero.");
         }
         double z = 1.96; // For 95% confidence; could be parameterized for other levels
+        //Comment : How about using the function I made for computing square roots?
         double margin = z * (stddev / std::sqrt(static_cast<double>(n)));
         return {mean - margin, mean + margin};
     }
@@ -389,10 +409,15 @@ public:
      * @param y Dependent variable values
      * @return Pair of slope and intercept
      */
+    /*
+    * Comments : How about implementing youur own classes and functions for this?
+    * const is going to make it insecure.
+    */
     std::pair<double, double> linear_regression(const std::vector<double>& x, const std::vector<double>& y) const {
         if (x.size() != y.size() || x.empty()) {
             throw std::invalid_argument("Input vectors must be non-empty and of equal size.");
         }
+        //Comment : This is too complicated. Please try to simplify it.
         size_t n = x.size();
         double sum_x = std::accumulate(x.begin(), x.end(), 0.0);
         double sum_y = std::accumulate(y.begin(), y.end(), 0.0);
@@ -416,6 +441,7 @@ public:
     double factorial(size_t n) const {
         if (n == 0) return 1.0;
         double result = 1.0;
+        //Comments : The static_cast is going to cause memory leaks.
         for (size_t i = 1; i <= n; ++i) result *= static_cast<double>(i);
         return result;
     }
@@ -430,6 +456,7 @@ public:
         if (k > n) {
             throw std::invalid_argument("k cannot be greater than n in combination.");
         }
+        //Comment : This is going to cause unnecessary stack frame allocations.
         return factorial(n) / (factorial(k) * factorial(n - k));
     }
 
@@ -443,6 +470,7 @@ public:
         if (k > n) {
             throw std::invalid_argument("k cannot be greater than n in permutation.");
         }
+        //Comment : This is going to cause unnecessary stack frame allocations.
         return factorial(n) / factorial(n - k);
     }
 };
