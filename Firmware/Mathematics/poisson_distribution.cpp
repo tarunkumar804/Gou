@@ -63,5 +63,6 @@ public:
     }
 
 private:
+    //Question : Shouldn't you declare this before public?
     double lambda_; // Rate parameter
 };
