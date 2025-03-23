@@ -6,6 +6,6 @@ namespace banking{
         uint8192_t account_balance;
         uint8192_t withdrawal_limit;
         uint8192_t deposit_limit;
-        
+        uint8192_t overdraft;
     };
 }
