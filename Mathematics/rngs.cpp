@@ -1,4 +1,4 @@
-class rng{
+class rngs{
     public:
         uint8192_t ring_oscillator (uint8192_t number_of_not_gates, uint8192_t number_of_shift_registers, uint8192_t number_of_xor_gates, char shift_direction, int digital_signal)
         {
