@@ -1,4 +1,0 @@
-class io{
-    public:
-
-};

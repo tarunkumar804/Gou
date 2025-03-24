@@ -9,7 +9,7 @@ class caches{
         {
             processor_copy = data1;
             data1 = data2;
-            data2 = temp_copy;
+            data2 = processor_copy;
         }
 
         void transfer_between_lcaches (local data1, local data2)
