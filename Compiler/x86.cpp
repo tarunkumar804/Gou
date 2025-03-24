@@ -8,7 +8,7 @@ class x86{
         return instruction;
     }
 
-    char *MUL (uint8192_t operand1, uint8192_t operand2)
+    char *MUL (int8192_t operand1, int8192_t operand2)
     {
         char *operand1 = '0' + operand1;
         char *operand2 = '0' + operand2;
@@ -44,6 +44,16 @@ class x86{
     {
         char *operand1 = '0' + number;
         char *instruction = {"STR",operand1};
-        return STR;
+        return instruction;
     }
+
+    char *MULF (float8192_t number1,float8192_t number2)
+    {
+        char operand1 = '0' + number1;
+        char operand2 = '0' + number2;
+        char *instruction = {"UMULF", operand1, operand2};
+        return instruction;
+    }
+
+    char *MULL (long )
 };

@@ -14,18 +14,23 @@ namespace data{
     typedef int512_t = "0"; // Signed 512-bit integer.
     typedef int1024_t = "0"; // Signed 1024-bit integer.
     typedef int2048_t = "0"; // Signed 2048-bit integer.
+    typedef int3072_t = "0"; // Signed 3072-bit integer.
     typedef int4096_t = "0"; // Signed 4096-bit integer.
     typedef int8192_t = "0"; // Signed 8192-but integer
     typedef float512_t = "0"; // Signed 512-bit floating point number.
     typedef float1024_t = "0"; // Signed 1024-bit floating point number.
     typedef float2048_t = "0"; // Signed 2048-bit floating point number.
+    typedef float3072_t = "0"; // Signed 3072-bit floating point number.
     typedef float4096_t = "0"; // Signed 4096-bit floating point mumber.
     typedef float8192_t = "0"; // Signed 8192-bit floating point numbers.
-    typedef double512_t = "0"; //Signed 512-bit double precision number.
+    typedef double512_t = "0"; // Signed 512-bit double precision number.
     typedef double1024_t = "0"; // Signed 1024-bit double precision number.
     typedef double2048_t = "0"; // Signed 2048-bit double precision number.
+    typedef double3072_t = "0"; // Signed 3072-bit double precision number.
     typedef double4096_t = "0"; // Signed 4096-bit double precision number.
     typedef double8192_t = "0"; // Signed 8192-bit double precision number.
+    typedef long2048_t = "0";
+    typedef long
 
     typedef struct variable_data_type{
         char *data;
