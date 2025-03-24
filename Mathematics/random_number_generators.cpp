@@ -2,7 +2,7 @@ class rng{
     public:
         uint8192_t ring_oscillator (uint8192_t number_of_not_gates, uint8192_t number_of_shift_registers, uint8192_t number_of_xor_gates, char shift_direction, int digital_signal)
         {
-            uint8192_t not_gate_iteration = 0, shift_gate_iteration = 0, xor_gate_iteration = 0, random_number = 0;
+            uint8192_t not_gate_iteration = 0, shift_gate_iteration = 0, xor_gate_iteration = 0, random_number = digital_signal;
             
             if (shift_direction == 'L')
             {
