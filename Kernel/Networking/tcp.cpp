@@ -5,7 +5,6 @@ class tcp{
     char *send_tcp_message (uint32_t ipvfouraddress, uint32_t ipvsixaddress, char *tcp_header, char *data_header, char *data_frame, uint8192_t network_device_mount_point)
     {
       /** A function to send a TCP message
-      * @author 
       * @param ipvfouraddress - IPv4 address of sender.
       * @param ipvsixaddress - IPv6 address of sender.
       * @param tcp_header - TCP header of packet.
