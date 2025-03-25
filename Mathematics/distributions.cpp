@@ -46,7 +46,7 @@ class binomial{
             return pmfs;
         }
 
-        double* means (double set[])
+        double* expectations (double set[])
         {
             double mean_array[sizeof(set)], P_X = 0, q = 0;
             long count = 0;
@@ -82,4 +82,5 @@ class binomial{
 
             return variances;
         }
+
 };
