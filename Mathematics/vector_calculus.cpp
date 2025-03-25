@@ -1,6 +1,6 @@
 class vector_calculus{
     public:
-        double* subspace_sums (double set[][]){
+        double** subspace_sums (double set[][]){
             double subspace_sums [sizeof(set[0])], sum = 0;
             
             //Does a summation of the columns

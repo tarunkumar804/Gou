@@ -82,5 +82,4 @@ class binomial{
 
             return variances;
         }
-
 };
