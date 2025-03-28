@@ -1,9 +1,10 @@
 class sampling{
     
-    double* fourier_transform(double *wave_levels)
+    double* FFT(double *wave_levels)
     {
         /** Function to perform Fast Fourier Transform.
         * @param wave_levels - voltage levels of wave.
+        * @return transformed values of wave.
         */
 
         double samples[sizeof(wave_levels)];

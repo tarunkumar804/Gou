@@ -14,7 +14,7 @@ class MIDI {
       uint8192_t MIDI_data[10][number_of_samples];
 
       for (int i = 0; i < 10; i++)
-        for (int j = 0; j < number_of_samples; i++)
+      { for (int j = 0; j < number_of_samples; i++)
         {
           if (i == 0)
             MIDI_data[i][j] =ask_MIDI_port1_address;
@@ -28,6 +28,24 @@ class MIDI {
             MIDI_data [i][j] = ask_MIDI_port5_address;
 
         }
+      }
       return MIDI_data;
+    }
+
+    uint64_t PCM (uint64_t audio_port_address, long long int window_size)
+    {
+      /** A function to implement Pulse Code Modulation (PCM).
+      * @param audio_port_address - Mount point address of audio port in RAM.
+      * @param window_size - To specify the size of the sliding window.
+      */
+     
+      uint64_t PCM_voltages [window_size];
+      sampling s = new sampling;
+
+      for (long long int i = 0; i <= window_size; i++)
+        PCM_voltages[window_size] = ask_audio_port_address;
+      PCM_voltages = s.FFT(PCM_voltages);
+
+      return PCM_voltages;
     }
 };

@@ -79,4 +79,9 @@ class audio_compression{
 
             return compressed_audio;
         }
+
+        double flac_compression(char *filestream)
+        {
+            
+        }
 };
