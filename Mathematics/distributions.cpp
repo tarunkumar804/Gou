@@ -2,6 +2,12 @@ class binomial_distribution{
     public:
         double* pmf (long long int number_of_trials, double set[])
         {
+            /** A function to calculate the pmfs of the given set.
+            *  @param number_of_trials - number of times the trial needs to be done.
+            *  @param set - the data set.
+            *  @return An array containing the pmfs for each of the values.
+            */
+
             double pmfs [number_of_trials], ncr = 0;
             float p[sizeof(set)], q[sizeof(set)];
             long long int trial = 0, count = 0;
@@ -36,6 +42,11 @@ class binomial_distribution{
 
         double* expectation (double set[])
         {
+            /** A function to calculate expectations from the given set.
+            *  @param set - The data set.
+            *  @return A set containing expectation values.
+            */
+
             double expectations [sizeof(set)], p;
             long long int count = 0;
 
@@ -57,6 +68,11 @@ class binomial_distribution{
 
         double* variance (double set[])
         {
+            /** A function to calculate 
+            * @param set - The data set.
+            * @return An array containing variances.
+            */
+
             double variances[sizeof(set)], p, q;
             long long int count = 0;
 
@@ -71,5 +87,36 @@ class binomial_distribution{
 
                 variances[i] = sizeof(set)*p*q;
             }
+
+            return variances;
+        }
+
+        double skewness (double set[])
+        {
+            /** A function to calculate skewness.
+            * @param set - the data set.
+            * @return An array containing the skewness of the data set.
+            */
+
+            double p = 0, q = 0, npq_root = 0, skewness[sizeof(set)];
+            long long int count = 0;
+
+            for (int i = 0; i < sizeof(set); i++)
+            {
+                for (int j = 0; j < sizeof(set); j++)
+                {
+                    if (set[i] == set[j])
+                        count++;
+                }
+
+                p = count/sizeof(set);
+                q = 1 - p;
+
+                npq_root = (sizeof(set) * p * q);
+                npq_root = npq_root/2;
+                skewness[i] = (q-p)/npq_root;
+            }
+
+            return skewness;
         }
 };
