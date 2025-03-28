@@ -91,7 +91,7 @@ class binomial_distribution{
             return variances;
         }
 
-        double skewness (double set[])
+        double* skewness (double set[])
         {
             /** A function to calculate skewness.
             * @param set - the data set.
@@ -118,5 +118,25 @@ class binomial_distribution{
             }
 
             return skewness;
+        }
+
+        double* excess_kutosis (double set[])
+        {
+            double excess_kurtosis[sizeof(set)], p = 0, q = 0;
+            long long int count = 0;
+
+            for (int i = 0; i < sizeof(set); i++)
+            {
+                for (int j = 0; j < sizeof(set); j++)
+                    if (set[i] == set[j])
+                        count++;
+
+                p = count/sizeof(set);
+                q = 1 - p;
+
+                excess_kurtosis[i] = (1 - (6 *p *q))/(sizeof(set)*p*q);
+            }
+
+            return excess_kurtosis;
         }
 };
