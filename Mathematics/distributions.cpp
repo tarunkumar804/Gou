@@ -122,6 +122,11 @@ class binomial_distribution{
 
         double* excess_kutosis (double set[])
         {
+            /** A function for calculating excess kurtosis
+            * @param set - the data set.
+            * @return An array that stores the excess kurtosis values.
+            */
+
             double excess_kurtosis[sizeof(set)], p = 0, q = 0;
             long long int count = 0;
 
