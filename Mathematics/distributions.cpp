@@ -15,6 +15,7 @@ class binomial_distribution{
                             count ++;
                     p[i] = count/sizeof(set);
                     q[i] = 1 - p[i];
+                    count = 0;
                 }
 
                 for (int i = 0; i < sizeof(set); i++)
@@ -28,6 +29,47 @@ class binomial_distribution{
                     
                     pmfs [i] = ncr * p[i] * q[i];
                 }
+            }
+
+            return pmfs;
+        }
+
+        double* expectation (double set[])
+        {
+            double expectations [sizeof(set)], p;
+            long long int count = 0;
+
+            for (int i = 0; i < sizeof(set); i++)
+            {
+                for (int j = 0; j < sizeof(set); j++)
+                {
+                    if (set[i] == set[j])
+                        count ++;
+                }
+
+                p = count/sizeof(set);
+                expectations[i] = p * sizeof(set);
+                count = 0;
+            }
+
+            return expectations;
+        }
+
+        double* variance (double set[])
+        {
+            double variances[sizeof(set)], p, q;
+            long long int count = 0;
+
+            for (int i = 0; i < sizeof(set); i++)
+            {
+                for (int j = 0; j < sizeof(set); j++)
+                    if (set[i] == set[j])
+                        count++;
+                
+                p = count/sizeof(set);
+                q = 1 - p;
+
+                variances[i] = sizeof(set)*p*q;
             }
         }
 };
