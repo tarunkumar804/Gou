@@ -144,4 +144,22 @@ class binomial_distribution{
 
             return excess_kurtosis;
         }
+
+        double* fisher_information (double set[])
+        {
+            double fisher_information [sizeof(set)], p = 0, q = 0;
+            long long int count = 0;
+
+            for (int i = 0; i < sizeof(set); i++)
+            {
+                for (int j = 0; j < sizeof(set); j++)
+                    if (set[i] == set[j])
+                        count ++;
+                p = count/sizeof(set);
+                q = 1 - p;
+                fisher_information[i] = sizeof(set)/(p * q);
+            }
+
+            return fisher_information;
+        }
 };
