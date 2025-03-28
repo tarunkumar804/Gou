@@ -1,6 +1,5 @@
 class numerical_methods{
     public:
-
         uint8192_t e_calculation (uint8192_t precision)
         {
             //Computes Euler's constant to a the precision specified.
@@ -53,7 +52,7 @@ class numerical_methods{
             return exponentiation_result;
         }
 
-        double8192_t fractional_exponentiation (double8192_t base, double8192_t exponent)
+        double8192_t negative_exponentiation (double8192_t base, double8192_t exponent)
         {
             /**
              * Calculates base ^ -(exponent).
@@ -73,7 +72,7 @@ class numerical_methods{
             return result;
         }
 
-        double8192_t calculate_logarithm (double8192_t base, double8192_t x, double8192_t expected_result)
+        double8192_t logarithm (double8192_t base, double8192_t x, double8192_t expected_result)
         {
             /** Explanation of below function :
             * Exponentiates until it reaches the number.
@@ -97,21 +96,6 @@ class numerical_methods{
             }
      
             return logarithm_result;
-        }
-  
-        double8192_t probability (double8192_t set[], double8192_t value_to_check_for)
-        {
-            // Explanation of function : P(X = A)
-            // P (X = A) = N(A)/N(set).
-            double8192_t P_X = 0;
-            int8192_t X_count = 0;
-            for (int8192_t i = 0; i < sizeof(set); i++)
-            {
-                if (set[i] == value_to_check_for)
-                    X_count++;
-            }
-            P_X = X_count/sizeof(set);
-            return P_X;
         }
 
         double return_limit_result(double point){
