@@ -147,6 +147,8 @@ namespace networking{
     typedef struct ble{
         char *device_name;
         uint8192_t device_id;
+        uint32_t access_address;
+        
         uint8192_t number_of_devices;
         uint8192_t device_array[number_of_devices];
         
