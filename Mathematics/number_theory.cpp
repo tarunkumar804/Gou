@@ -35,8 +35,8 @@ public:
             b = q;
         }
 
-        double resultant_array = {q,r};
+        double *resultant_array = {q,r};
 
         return resultant_array;
     }
-};    
+};

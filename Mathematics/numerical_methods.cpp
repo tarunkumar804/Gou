@@ -45,7 +45,7 @@ class numerical_methods{
             /**
             * Calculates base ^ exponent.
             */
-            uint8192_t number_of_iterations = convert_exponent, exponentiation_result = 0;
+            uint8192_t number_of_iterations = exponent, exponentiation_result = 0;
      
             for (uint8192_t iterations = 0; iterations < number_of_iterations; iterations++)
                 base = base * base;
