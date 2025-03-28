@@ -147,6 +147,10 @@ class binomial_distribution{
 
         double* fisher_information (double set[])
         {
+            /** A function for calculating fisher information.
+            * @param set - The data set.
+            * @return An array containing fisher information for every data in the data set.
+            */
             double fisher_information [sizeof(set)], p = 0, q = 0;
             long long int count = 0;
 
