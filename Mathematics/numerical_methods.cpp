@@ -125,7 +125,7 @@ class numerical_methods{
 
         double8192_t inverse_exponentiation (double8192_t number, double8192_t root_of, double8192_t precision)
         {
-            //Computes roots of number with any root.
+            //Computes root of any number with any root.
            double8192_t root = number/root_of;
            int8192_t integer_part = number;
            float8192_t fractional_part = integer_part - number;
