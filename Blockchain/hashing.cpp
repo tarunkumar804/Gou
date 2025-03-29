@@ -1,21 +1,6 @@
 class hashing{
     public:
-        uint2048_t rotations (uint2048_t number, long long int number_of_iterations){
-            
-            uint2048_t rotated_number = 0, temporary_number = 0;
-            uint8_t carry_over = 0;
-            
-            for (long long int l = 0; l < number_of_iterations; l++)
-            {
-                temporary_number = number;
-                number = number >> 1; // Number gets divided by 2.
-                carry_over = temporary_number - number; //Number - Temporary_number = negative number or inverted bits.
-                rotated_number = number | carry_over;
-            }
-
-            return rotated_number;
-        }
-
+    
         uint256_t* SHA256(uint256_t a, uint256_t b, uint256_t c, uint256_t d, uint256_t e, uint256_t f, uint256_t g, uint256_t h, uint64_t derived_word, uint64_t additive_constant, uint256_t input_block, long long int shift_iterations, long long int rotation_iterations){
             uint256_t *hash, temp_a, temp_d, temp_h;
             uint256_t sum_a = rotations(a, 28) ^ rotations(a, 34) ^ rotations(a, 39);
