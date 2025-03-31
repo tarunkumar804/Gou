@@ -1,13 +1,11 @@
 class number_theory{
 public:
-    double gauss_sum (int n)
-    {
+    double gauss_sum (int n){
         double result = (n*(n+1))/2;
         return result;
     }
     
-    double8192_t combination (double8192_t n, double8192_t r)
-    {
+    double8192_t combination (double8192_t n, double8192_t r){
         double8192_t n_factorial = factorial(n);
         double8192_t n_r_factorial = factorial(n-r);
         double8192_t r_factorial = factorial(r);
@@ -15,16 +13,14 @@ public:
         return ncr;
     }
       
-    double8192_t permutation (double8192_t n, double8192_t r)
-    {
+    double8192_t permutation (double8192_t n, double8192_t r){
         double8192_t n_factorial =  factorial(n);
         double8192_t n_r_factorial = factorial(n-r);
         double8129_t npr = n_factorial/n_r_factorial;
         return npr;
     }
 
-    double* divisibility_theorem (double a, double b, long interations)
-    {
+    double* divisibility_theorem (double a, double b, long interations){
         //Computes a = qb + r
         double q = 0, r = 0;
         
@@ -38,7 +34,5 @@ public:
         double *resultant_array = {q,r};
 
         return resultant_array;
-    }
-    
-    
+    }    
 };

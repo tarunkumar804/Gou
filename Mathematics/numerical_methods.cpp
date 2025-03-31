@@ -1,7 +1,6 @@
 class numerical_methods{
     public:
-        uint8192_t e_calculation (uint8192_t precision)
-        {
+        uint8192_t e_calculation (uint8192_t precision){
             //Computes Euler's constant to a the precision specified.
             uint8192_t factorial_sum = 0;
             int8192_t factorial = 1;
@@ -16,8 +15,7 @@ class numerical_methods{
             return factorial_sum;
         }
      
-        double8192_t factorial (double8192_t n)
-        {
+        double8192_t factorial (double8192_t n){
            // Explanation of below function : (1/2)! = 1!/2!
            int8912_t integer_part = n;
            float8192_t fractional_part = n - integer_part; 
@@ -39,8 +37,7 @@ class numerical_methods{
            return factorial_result;
         }
 
-        double8192_t exponentiation (double8192_t base, double8192_t exponent)
-        {
+        double8192_t exponentiation (double8192_t base, double8192_t exponent){
             /**
             * Calculates base ^ exponent.
             */
@@ -52,8 +49,7 @@ class numerical_methods{
             return exponentiation_result;
         }
 
-        double8192_t negative_exponentiation (double8192_t base, double8192_t exponent)
-        {
+        double8192_t negative_exponentiation (double8192_t base, double8192_t exponent){
             /**
              * Calculates base ^ -(exponent).
              */
@@ -72,8 +68,8 @@ class numerical_methods{
             return result;
         }
 
-        double8192_t logarithm (double8192_t base, double8192_t x, double8192_t expected_result)
-        {
+        double8192_t logarithm (double8192_t base, double8192_t x, double8192_t expected_result){
+            
             /** Explanation of below function :
             * Exponentiates until it reaches the number.
             * If the exponentitation goes beyond the number,
@@ -81,6 +77,7 @@ class numerical_methods{
             * of times the base is to multiplied to be brought
             * to a whole number.
             */
+            
             double8192_t logarithm_result = 1;
      
             while (logarithm_result < expected_result)
@@ -107,17 +104,17 @@ class numerical_methods{
             return point;
         }
 
-        double8192_t inverse_exponentiation (double8192_t number, double8192_t root_of, double8192_t precision)
-        {
+        double8192_t inverse_exponentiation (double8192_t number, double8192_t root_of, double8192_t precision){
+            
             //Computes root of any number with any root.
+
            double8192_t root = number/root_of;
            int8192_t integer_part = number;
            float8192_t fractional_part = integer_part - number;
 
            for (int8192_t i = 0; i <= precision; i++)
                  root = root/root_of;
-           while ((integer_part - fractional_part) > 0)
-           {
+           while ((integer_part - fractional_part) > 0){
                fractional_part = fractional_part * 10;
                root = root/root_of;
            }
@@ -142,8 +139,8 @@ class numerical_methods{
         double single_variable_integration(string expression, double point, double margin_of_error, double precision){
 
             /**Explanation of function
-             * Evaluates the infinitismally small value of the function and then, adds them up.
-             */
+            * Evaluates the infinitismally small value of the function and then, adds them up.
+            */
 
             double differentiation_result = single_variable_differentiation(margin_of_error, point, expression);
             long single_variable_integration_result = 0;
@@ -159,7 +156,7 @@ class numerical_methods{
             return single_variable_integration_result;
         }
 
-        double multivariable_integration(string expression1, string expression2, double x_point1, double x_point2, double y_point1, double y_point2, double margin_of_error_point1, double margin_of_error_point2, double dx_precision, double dy_precision){
+        double double_integration(string expression1, string expression2, double x_point1, double x_point2, double y_point1, double y_point2, double margin_of_error_point1, double margin_of_error_point2, double dx_precision, double dy_precision){
             /** Explanation of below statements:
             * Integration is analogus to addtion.
             * Differentiation is analogus to subtraction.
