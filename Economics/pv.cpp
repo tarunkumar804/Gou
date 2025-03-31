@@ -29,4 +29,9 @@ class pv{
 
             return periodic_payments;
         }
+        
+        uint8192_t present_value_of_arithmetic_gradient_series()
+        {
+            
+        }
 };

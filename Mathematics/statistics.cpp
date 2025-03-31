@@ -36,7 +36,7 @@ class statistics{
         return standard_deviation;
     }
 
-    double8192_t probability (double8192_t set[], double8192_t value_to_check_for)
+    double probability (double8192_t set[], double8192_t value_to_check_for)
     {
         // Explanation of function : P(X = A)
         // P (X = A) = N(A)/N(set).

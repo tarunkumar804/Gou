@@ -5,18 +5,18 @@ public:
         return result;
     }
     
-    double8192_t combination (double8192_t n, double8192_t r){
-        double8192_t n_factorial = factorial(n);
-        double8192_t n_r_factorial = factorial(n-r);
-        double8192_t r_factorial = factorial(r);
-        double8192_t ncr = n_factorial/(n_r_factorial*r_factorial);
+    double combination (double8192_t n, double8192_t r){
+        double n_factorial = factorial(n);
+        double n_r_factorial = factorial(n-r);
+        double r_factorial = factorial(r);
+        double ncr = n_factorial/(n_r_factorial*r_factorial);
         return ncr;
     }
       
-    double8192_t permutation (double8192_t n, double8192_t r){
-        double8192_t n_factorial =  factorial(n);
-        double8192_t n_r_factorial = factorial(n-r);
-        double8129_t npr = n_factorial/n_r_factorial;
+    double permutation (double8192_t n, double8192_t r){
+        double n_factorial =  factorial(n);
+        double n_r_factorial = factorial(n-r);
+        double npr = n_factorial/n_r_factorial;
         return npr;
     }
 

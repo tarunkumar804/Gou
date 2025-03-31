@@ -1,7 +1,7 @@
 namespace data{
     /* 
     * The zero in the string is a nibble.
-    * The data types needs implementation.
+    * The data types are a transitionary until hardware is able to accomdate them.
     */
     typedef uint4_t = "0x0"; //Unsigned integer of 4-bits.
     typedef uint8_t = "0x00"; //Unsigned integer of 8-bits.

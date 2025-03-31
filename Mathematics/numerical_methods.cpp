@@ -3,7 +3,7 @@ class numerical_methods{
         uint8192_t e_calculation (uint8192_t precision){
             //Computes Euler's constant to a the precision specified.
             uint8192_t factorial_sum = 0;
-            int8192_t factorial = 1;
+            int factorial = 1;
          
             for (int i = 0; i < precision; i++)
             {
@@ -15,29 +15,15 @@ class numerical_methods{
             return factorial_sum;
         }
      
-        double8192_t factorial (double8192_t n){
-           // Explanation of below function : (1/2)! = 1!/2!
-           int8912_t integer_part = n;
-           float8192_t fractional_part = n - integer_part; 
-           int8192_t integer_result = 1, fractional_result = 1;
+        double factorial (long long int n){
+           double factorial = 1;
 
-           for (int i = 2; i <= n; i++)
-            integer_result = integer_result * i;
-           integer_part = fractional_part;
-           double8192_t temporary_copy = fractional_part;
-
-           while ((frac_integer_part - temporary_copy) < 0)
-            int8192_t frac_integer_part = fractional_part * 10;
-         
-           for (int i = 2 ; i <= frac_integer_part; i++)
-            fractional_result = fractional_result * i;
-
-           double8192_t factorial_result = integer_result/fractional_result;
-
-           return factorial_result;
+           for (long long int i = 1; i <= n; i++)
+                factorial = factorial * i;
+           return factorial;
         }
 
-        double8192_t exponentiation (double8192_t base, double8192_t exponent){
+        double exponentiation (double base, double exponent){
             /**
             * Calculates base ^ exponent.
             */
@@ -49,50 +35,61 @@ class numerical_methods{
             return exponentiation_result;
         }
 
-        double8192_t negative_exponentiation (double8192_t base, double8192_t exponent){
-            /**
-             * Calculates base ^ -(exponent).
+        double negative_exponentiation (double base, double exponent){
+            
+            /** A function to calculate negative exponentiation.
+             * @param base - The exponent's base.
+             * @param exponent - The exponent.
+             * @return result of exponentiation.
              */
-            double8192_t exponent_copy = exponent;
-            double8192_t result = base;
+            double result = 0;
 
-            for (int8192_t i = 0; i < integer_part; i++)
-                result = result * result;
-            while ((fractional_part * 10 - fractional_part_copy) < (fractional_part_copy * 10))
+            while (((exponent * 10) - (exponent)) != 0)
             {
-                exponent_copy = exponent;
-                exponent = exponent * 10;
-                result = result/exponent;
+                /** Explanation of the below statement:
+                * Exponentiation is multiplication.
+                * The inverse of that is division.
+                * So, for negative exponents
+                * division needs to occur until the exponent
+                * becomes a whole number and you have a reference
+                *  to know when to stop.
+                */
+
+                result = base/exponent;
             }
 
             return result;
         }
 
-        double8192_t logarithm (double8192_t base, double8192_t x, double8192_t expected_result){
-            
+        double logarithm (double base, double expected_result){
+        
             /** Explanation of below function :
             * Exponentiates until it reaches the number.
             * If the exponentitation goes beyond the number,
             * the number is divided with the base the number
             * of times the base is to multiplied to be brought
             * to a whole number.
+            * @param 
             */
+
+            double x = base;
+            long long int int integer_part = x;
+            double expected_result_copy = expected_result;
+
+            for (long long int i = 0; i < integer_part; i++)
+                x = x * x;
             
-            double8192_t logarithm_result = 1;
-     
-            while (logarithm_result < expected_result)
-            {
-                for (int i = 0; i <= x ; i++)
-                    intermediate_result = intermediate_result * 10;
+            if (x == expected_result)
+                break;
+            
+            else{
+                while (((expected_result_copy * 10) - expected_result_copy) != 0)
+                {
+                    x = x/expected_result_copy;
+                    expected_result_copy = expected_result_copy * 10;
+                }
             }
-     
-            if (logarithm_result > expected_result)
-            {
-                while (logarithm_result != expected _result)
-                    logarithm_result = logarithm_result/base;
-            }
-     
-            return logarithm_result;
+            return x;
         }
 
         double return_limit_result(double point){
@@ -102,24 +99,6 @@ class numerical_methods{
              *  Lim (variable -> point) means the curve is going to an infinitisemally small value, it might as well be the point in the curve or line.
              */
             return point;
-        }
-
-        double8192_t inverse_exponentiation (double8192_t number, double8192_t root_of, double8192_t precision){
-            
-            //Computes root of any number with any root.
-
-           double8192_t root = number/root_of;
-           int8192_t integer_part = number;
-           float8192_t fractional_part = integer_part - number;
-
-           for (int8192_t i = 0; i <= precision; i++)
-                 root = root/root_of;
-           while ((integer_part - fractional_part) > 0){
-               fractional_part = fractional_part * 10;
-               root = root/root_of;
-           }
-
-           return root;
         }
 
         double function_evaluation(string expression, double point){
