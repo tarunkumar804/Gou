@@ -108,7 +108,7 @@ class numerical_methods{
             return result;
         }
 
-        double single_variable_limit(double point, string expression){
+        double single_variable_limit(double point,char *expression){
             /**  Function explanation:
             * Lim (variable -> point) (f(variable)) = f(point)  
             */
@@ -145,8 +145,10 @@ class numerical_methods{
             * When intgeration is done, limits are the ones that are being evaluated.
             * Evaluates the functions with respect to those limits.
             * 
-            * @param expressions - A matrix containing expressions.
-            * @param limits - A vector containing limits. (Upper limit and then, lower limit)
+            * @param expressions - A matrix containing expressions row-wise.
+            *                      Example : expressions[0][j] can be the innermost expression, expressions[1][j] can be second inner most expression and so on. 
+            * @param limits - A vector containing limits. (lower limit and then, upper limit consequtively).
+            *                 Example : row[0] = lower limit. row[1] = upper limit and so, on.
             * @return result of integration.
             */
 
