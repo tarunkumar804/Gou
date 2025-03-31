@@ -69,7 +69,9 @@ class numerical_methods{
             * the number is divided with the base the number
             * of times the base is to multiplied to be brought
             * to a whole number.
-            * @param 
+            * @param base - base of exponent.
+            * @param expected_result - The value to get.
+            * @return 
             */
 
             double x = base;
@@ -101,7 +103,7 @@ class numerical_methods{
             return point;
         }
 
-        double function_evaluation(string expression, double point){
+        double function_evaluation(char *expression, double point){
             double result = 0;
             return result;
         }
@@ -135,23 +137,33 @@ class numerical_methods{
             return single_variable_integration_result;
         }
 
-        double double_integration(string expression1, string expression2, double x_point1, double x_point2, double y_point1, double y_point2, double margin_of_error_point1, double margin_of_error_point2, double dx_precision, double dy_precision){
+        double multivariable_integration (char** expressions , double *limits){
+            
             /** Explanation of below statements:
             * Integration is analogus to addtion.
             * Differentiation is analogus to subtraction.
             * When intgeration is done, limits are the ones that are being evaluated.
-            * Evaluate the functions with respect to those limits.
-            * Is prone to error.
+            * Evaluates the functions with respect to those limits.
+            * 
+            * @param expressions - A matrix containing expressions.
+            * @param limits - A vector containing limits. (Upper limit and then, lower limit)
+            * @return result of integration.
             */
 
-            double dy1 = evaluate_function(expression2, y_point1);
-            double dy2 = evaluate_function(expression2, y_point2);
-            double dx1 = evaluate_function(expression1, x_point1);
-            double dx2 = evaluate_function(expression2, x_point2);
+            char expression[sizeof(expressions[0])];
+            double result = 0;
 
-            double multivariable_integration_result = (dy2 - dy1) * (dx2 - dx1);
+            for (long long int row = 0; row < sizeof(expressions); row++) //sizeof(expressions) returns the number of rows in the matrix. Learned it when programming in Java.
+            {
+                for (long long int column = 0; column < sizeof(expressions[0]); column++)
+                    expression[column] = expressions[row][column];
+                double lower_limit = function_evaluation(expression, limits[row]); // limits [(row % 2) == 0] is the lower limit.
+                double upper_limit = function_evaluation(expression, limits[row+1]); // limits [(row % 2) == 1] is the upper limit.
 
-            return multivariable_integration_result;
+                result = result + (upper_limit - lower_limit);
+            }
+
+            return result;
         }
 
         double single_variable_differentiation (double margin_of_error, double point, string expression){
