@@ -1,6 +1,6 @@
 class gyration{
     public:
-        bool rotation_of_object(double8192_t x_coordinate, double8192_t y_coordinate, double8192_t z_coordinate, bool rotate_from_base, bool rotate_from_height, bool rotate_from_tangential)
+        bool rotation_of_object(double x_coordinate, double y_coordinate, double z_coordinate, bool rotate_from_base, bool rotate_from_height, bool rotate_from_tangential)
         {
             trignometry t = new trignometry();
 

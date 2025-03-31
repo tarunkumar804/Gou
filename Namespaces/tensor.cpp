@@ -1,13 +1,13 @@
 namespace tensor{
      typedef struct vector{
-        float8192_t direction; //In degrees with respect to cardinal and non - cardinal directions.
-        double8192_t magnitude;
+        float direction; //In degrees with respect to cardinal and non - cardinal directions.
+        double magnitude;
     };
      
     typedef struct matrix {
-        int8192_t row;
-        int8192_t column;
-        double8192_t matrix[row][column]; // Might cause runtime problems when you pass negative values to this.
+        int row;
+        int column;
+        double matrix[row][column]; // Might cause runtime problems when you pass negative values to this.
     };
      
     typedef struct subspace{
@@ -21,20 +21,20 @@ namespace tensor{
     };
 
     typedef struct set{
-        int8192_t length_of_set;
-        int8192_t array[length_of_set];
+        int length_of_set;
+        int array[length_of_set];
     };
     
     typedef struct map{
-        int8192_t length_of_map;
-        double8192_t array[length_of_map];
+        int length_of_map;
+        double array[length_of_map];
     };
 
     typedef struct map{
-        double8192_t length_of_map;
-        double8192_t breadth_of_map;
-        double8192_t height_of_map;
-        double8192_t tensor [length_of_map][breadth_of_map][height_of_map];
+        double length_of_map;
+        double breadth_of_map;
+        double height_of_map;
+        double tensor [length_of_map][breadth_of_map][height_of_map];
     };
     
 }

@@ -5,7 +5,7 @@ public:
         return result;
     }
     
-    double combination (double8192_t n, double8192_t r){
+    double combination (double n, double r){
         double n_factorial = factorial(n);
         double n_r_factorial = factorial(n-r);
         double r_factorial = factorial(r);
@@ -13,7 +13,7 @@ public:
         return ncr;
     }
       
-    double permutation (double8192_t n, double8192_t r){
+    double permutation (double n, double r){
         double n_factorial =  factorial(n);
         double n_r_factorial = factorial(n-r);
         double npr = n_factorial/n_r_factorial;

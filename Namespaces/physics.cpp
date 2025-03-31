@@ -128,7 +128,7 @@ namespace physics{
 
     typedef struct phasor {
         uint8192_t voltage;
-        float8192_t angle;
+        float angle;
     };
 
     typedef struct frictionl_vector{
@@ -155,7 +155,7 @@ namespace physics{
     
     typedef struct gluon {
         uint8219_t adhesiveness;
-        float8219_t mass_of_gluon;
+        float mass_of_gluon;
     };
     
      typedef struct neutrino {

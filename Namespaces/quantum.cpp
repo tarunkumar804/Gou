@@ -16,7 +16,7 @@ namespace quantum{
     
     typedef struct QCD{
          uint8192_t colour;
-         double8192_t emission_radius;
+         double emission_radius;
          uint8192_t gradient_of_colours_emitted;
     };
     
