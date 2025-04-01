@@ -2,7 +2,7 @@ class particle_physics{
     public:
         double cyclotron_accelration(double radius, double dv, long number_of_revolutions,double thickness)
         {
-            /** A function to simulate accelaration in a cyclometer.
+            /** A function to simulate accelaration in a cyclotron.
             * @param radius - radius of the accelrometer from a pivot element.
             * @param dv - infinitismally small value of velocity.
             * @param number_of_revolutions - number of revolutions in the accelrometer.
@@ -26,6 +26,11 @@ class particle_physics{
 
         double particle_collison (double thickness, double decrease_in_thickness)
         {
+            /** A function to simulate collisions in a particle accelrator
+            * @param thickness - Thickness of the object.
+            * @param decrease_in_thickness - Rate of decrease in thickness of object.
+            */
+
             //Decrease in thickness per increase in speed.
             double collison_speed = thickness/decrease_in_thickness;
             double collateral = 0, current_speed = 0;

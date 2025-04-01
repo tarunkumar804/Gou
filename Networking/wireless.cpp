@@ -9,7 +9,7 @@ class wireless{
       * @param precision - how precise should the calculation be.
       */
 
-      double fading = ((2*r)/(expectation(R) * expectation(R)) * (fractional_exponentiation (e_calculation (precision),((r*r)/(expectation(R) * expectation (R)));
+      double fading = ((2*r)/(expectation(R) * expectation(R)) * (negative_exponentiation (e_calculation (precision),((r*r)/(expectation(R) * expectation (R))))));
       return fading;
     }
 };
