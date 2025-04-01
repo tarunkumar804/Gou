@@ -6,6 +6,7 @@ class others{
             * F = A/i.
             * @param periodic_payment - The annuity.
             * @param interest_rate - The continuous interest rate.
+            * @return Future value of the continuous annuity.
             */
 
             double value = annuity/interest_rate;

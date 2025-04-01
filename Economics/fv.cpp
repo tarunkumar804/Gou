@@ -1,6 +1,7 @@
 class fv{
     double single_payment(double principal, float rate_of_interest, long long int payment_periods){
         /** A function to calculate future value of a single amount.
+        * @authors Tarun Kumar, Leonardo Di Maximillian.
         * @param principal - Initial amount of the series.
         * @param rate_of_interest - Interest rate in percentage.
         * @param payment_periods - Number of payment periods.
@@ -19,6 +20,7 @@ class fv{
 
     double annual_payments (double *annuities, float rate_of_interest, long long int payment_periods){
         /** A function to calculate future value of annuities.
+        * @authors Tarun Kumar, Leonardo Di Maximillian.
         * @param annuities - An array of periodic payments.
         * @param rate_of_interest - Rate of interest in percentages.
         * @param payment_periods - Number of payment periods.

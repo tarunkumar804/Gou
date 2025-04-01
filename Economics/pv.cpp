@@ -5,7 +5,7 @@ class pv{
         {
             /** Implements single present value of a future amount.
             * Equation : P = F/((1+r)^n).
-            * @author Tarun Kumar, Leornardo Di Maximillian.
+            * @authors Tarun Kumar, Leornardo Di Maximillian.
             * @param future_value - Future value of a single payment.
             * @param rate_of_interest - Interest rate of the period.
             * @param payment_periods - Number of periods.
@@ -26,7 +26,7 @@ class pv{
         {
             /** A function to implement present value of future sum of annuities.
             * Equation : P = F/(Sum(A * ((1+i)^n - 1)/i)).
-            * @author Tarun Kumar , Leonardo Di Maximillian.
+            * @authors Tarun Kumar , Leonardo Di Maximillian.
             * @param future_amount - Future amount of a number of periodic payments.
             * @param rate_of_interest - Rate of interest of the payment period.
             * @param payment_periods - Number of periodic payments.
