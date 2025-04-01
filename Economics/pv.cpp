@@ -44,6 +44,6 @@ class pv{
         
         double present_value_of_arithmetic_gradient_series()
         {
-               
+
         }
 };

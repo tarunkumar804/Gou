@@ -1,8 +1,14 @@
 class others{
     public:
-        double continuous_compounding (uint8192_t perodic_payment, double interest_rate)
+        double continuous_compounding (double annuity, double interest_rate)
         {
-            double value = periodic_payment/interest_rate;
+            /** Implements the equation
+            * F = A/i.
+            * @param periodic_payment - The annuity.
+            * @param interest_rate - The continuous interest rate.
+            */
+
+            double value = annuity/interest_rate;
             return value;
         }    
 };
