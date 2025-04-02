@@ -1,4 +1,4 @@
-using namespace data;
+//using namespace data; Causes recursive namespace callbacks.
 
 class list {
     class circular_linked_list {

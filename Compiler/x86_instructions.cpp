@@ -1,14 +1,16 @@
 class x86_instructions{
     public:
-        uint2048_t rotations (uint2048_t number, long long int number_of_iterations){
+        uint8192_t rotations (uint2048_t number, long long int number_of_iterations){
             
             /** A function to implement ROR assembly instruction
+            * @authors Tarun Kumar.
             * @param number - The number to rotate.
             * @param number_of_iterations - Number of rotations of bits.
             * @return rotated unsigned number.
             */
-            uint2048_t rotated_number = 0, temporary_number = 0;
-            uint8_t carry_over = 0;
+
+            uint8192_t rotated_number = 0, temporary_number = 0;
+            uint4_t carry_over = 0; // The carry over is a nibble.
         
             for (long long int l = 0; l < number_of_iterations; l++)
             {
