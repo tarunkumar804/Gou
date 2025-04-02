@@ -1,74 +1,127 @@
+#include <cstdint> // For uint32_t, uint64_t
+#include <array>   // For std::array
+#include <numeric> // Potentially for std::rotl, std::rotr in C++20 (or implement manually)
+#include <concepts> // For C++20 concepts if using std::rotr/rotl
+#include <limits>  // For numeric_limits
+
+// C++20 bit operations (provide fallback if not available)
+#if __cplusplus >= 202002L && defined(__has_include)
+#if __has_include(<bit>)
+#include <bit>
+#define HAS_STD_ROTATIONS 1
+#endif
+#endif
+
 class hashing {
 public:
-    // Structs to hold SHA-256 and SHA-512 state (8 words each)
+    // Public interface would go here (e.g., constructor, update, finalize methods)
+    // For now, we keep the focus on improving the internal round function.
+
+    // --- Constants (Example for SHA-256 K values - MUST be completed) ---
+    // Should be constexpr static members if possible
+    // static constexpr std::array<uint32_t, 64> K256 = { 0x428a2f98, 0x71374491, ... };
+    // static constexpr std::array<uint64_t, 80> K512 = { 0x428a2f98d728ae22, 0x7137449123ef65cd, ... };
+
+private: // Internal state and helpers should generally be private
+
+    // --- State Structs using Standard Word Sizes ---
     struct sha256_state {
-        uint256_t values[8];
+        // Use std::array for better C++ integration
+        std::array<uint32_t, 8> H; // State variables (a-h)
     };
 
     struct sha512_state {
-        uint512_t values[8];
+        std::array<uint64_t, 8> H; // State variables (a-h)
     };
 
-    // SHA-256 compression round
-    sha256_state SHA256_round(const uint256_t& a, const uint256_t& b, const uint256_t& c, const uint256_t& d,
-                              const uint256_t& e, const uint256_t& f, const uint256_t& g, const uint256_t& h,
-                              uint64_t derived_word, uint64_t additive_constant) {
-        sha256_state state;
+    // --- Rotation Helper Functions ---
+    // Use C++20 std::rotr if available, otherwise implement manually.
+    // Marked inline for potential performance gain, constexpr if possible.
 
-        // Compute SHA-256 round functions
-        uint256_t sum_a = rotations(a, 2) ^ rotations(a, 13) ^ rotations(a, 22);  // Σ0
-        uint256_t maj = (a & b) ^ (a & c) ^ (b & c);                             // Majority
-        uint256_t sum_e = rotations(e, 6) ^ rotations(e, 11) ^ rotations(e, 25); // Σ1
-        uint256_t ch = (e & f) ^ (~e & g);                                       // Choice
-
-        // Temporary values (using addition as per SHA-256 standard)
-        uint256_t temp1 = h + sum_e + ch + uint256_t(derived_word) + uint256_t(additive_constant);
-        uint256_t temp2 = sum_a + maj;
-
-        // Update state
-        state.values[0] = temp1 + temp2;  // a' = temp1 + temp2
-        state.values[1] = a;              // b' = a
-        state.values[2] = b;              // c' = b
-        state.values[3] = c;              // d' = c
-        state.values[4] = d + temp1;      // e' = d + temp1
-        state.values[5] = e;              // f' = e
-        state.values[6] = f;              // g' = f
-        state.values[7] = g;              // h' = g
-
-        return state;
+    template<typename T> requires (std::is_unsigned_v<T>)
+    [[nodiscard]] static constexpr inline T rotate_right(T value, unsigned int count) noexcept {
+        constexpr unsigned int bits = std::numeric_limits<T>::digits;
+        count %= bits; // Ensure count is within valid range
+        if (count == 0) return value;
+#ifdef HAS_STD_ROTATIONS
+        // Requires C++20 and <bit> header
+         return std::rotr(value, count);
+#else
+        // Manual implementation
+        return (value >> count) | (value << (bits - count));
+#endif
     }
 
-    // SHA-512 compression round
-    sha512_state SHA512_round(const uint512_t& a, const uint512_t& b, const uint512_t& c, const uint512_t& d,
-                              const uint512_t& e, const uint512_t& f, const uint512_t& g, const uint512_t& h,
-                              uint64_t derived_word, uint64_t additive_constant) {
-        sha512_state state;
+    // --- SHA-256 Compression Round (Operates IN-PLACE) ---
+    // Modifies the state directly for efficiency (no copying state structs)
+    // Takes Wt (derived word) and Kt (additive constant) with correct types
+    static void SHA256_round(sha256_state& current_state, uint32_t Wt, uint32_t Kt) noexcept {
+        // Load state into local variables (compilers often optimize this well)
+        uint32_t a = current_state.H[0];
+        uint32_t b = current_state.H[1];
+        uint32_t c = current_state.H[2];
+        uint32_t d = current_state.H[3];
+        uint32_t e = current_state.H[4];
+        uint32_t f = current_state.H[5];
+        uint32_t g = current_state.H[6];
+        uint32_t h = current_state.H[7];
 
-        // Compute SHA-512 round functions
-        uint512_t sum_a = rotations(a, 28) ^ rotations(a, 34) ^ rotations(a, 39); // Σ0
-        uint512_t maj = (a & b) ^ (a & c) ^ (b & c);                             // Majority
-        uint512_t sum_e = rotations(e, 14) ^ rotations(e, 18) ^ rotations(e, 41); // Σ1
-        uint512_t ch = (e & f) ^ (~e & g);                                       // Choice
+        // Compute SHA-256 round functions using correct 32-bit operations
+        uint32_t S1 = rotate_right(e, 6) ^ rotate_right(e, 11) ^ rotate_right(e, 25); // Σ1(e)
+        uint32_t ch = (e & f) ^ (~e & g);                                          // Ch(e,f,g)
+        uint32_t temp1 = h + S1 + ch + Kt + Wt;                                      // As per FIPS 180-4
 
-        // Temporary values (using addition as per SHA-512 standard)
-        uint512_t temp1 = h + sum_e + ch + uint512_t(derived_word) + uint512_t(additive_constant);
-        uint512_t temp2 = sum_a + maj;
+        uint32_t S0 = rotate_right(a, 2) ^ rotate_right(a, 13) ^ rotate_right(a, 22); // Σ0(a)
+        uint32_t maj = (a & b) ^ (a & c) ^ (b & c);                                  // Maj(a,b,c)
+        uint32_t temp2 = S0 + maj;                                                   // As per FIPS 180-4
 
-        // Update state
-        state.values[0] = temp1 + temp2;  // a' = temp1 + temp2
-        state.values[1] = a;              // b' = a
-        state.values[2] = b;              // c' = b
-        state.values[3] = c;              // d' = c
-        state.values[4] = d + temp1;      // e' = d + temp1
-        state.values[5] = e;              // f' = e
-        state.values[6] = f;              // g' = f
-        state.values[7] = g;              // h' = g
-
-        return state;
+        // Update state variables (working backwards as per standard update description)
+        current_state.H[7] = g;         // h' = g
+        current_state.H[6] = f;         // g' = f
+        current_state.H[5] = e;         // f' = e
+        current_state.H[4] = d + temp1; // e' = d + temp1
+        current_state.H[3] = c;         // d' = c
+        current_state.H[2] = b;         // c' = b
+        current_state.H[1] = a;         // b' = a
+        current_state.H[0] = temp1 + temp2; // a' = temp1 + temp2
     }
 
-private:
-    // Placeholder for rotations function (should be implemented based on uint256_t/uint512_t type)
-    uint256_t rotations(const uint256_t& x, int n);
-    uint512_t rotations(const uint512_t& x, int n);
+    // --- SHA-512 Compression Round (Operates IN-PLACE) ---
+    static void SHA512_round(sha512_state& current_state, uint64_t Wt, uint64_t Kt) noexcept {
+        // Load state into local variables
+        uint64_t a = current_state.H[0];
+        uint64_t b = current_state.H[1];
+        uint64_t c = current_state.H[2];
+        uint64_t d = current_state.H[3];
+        uint64_t e = current_state.H[4];
+        uint64_t f = current_state.H[5];
+        uint64_t g = current_state.H[6];
+        uint64_t h = current_state.H[7];
+
+        // Compute SHA-512 round functions using correct 64-bit operations
+        uint64_t S1 = rotate_right(e, 14) ^ rotate_right(e, 18) ^ rotate_right(e, 41); // Σ1(e)
+        uint64_t ch = (e & f) ^ (~e & g);                                           // Ch(e,f,g)
+        uint64_t temp1 = h + S1 + ch + Kt + Wt;                                       // As per FIPS 180-4
+
+        uint64_t S0 = rotate_right(a, 28) ^ rotate_right(a, 34) ^ rotate_right(a, 39); // Σ0(a)
+        uint64_t maj = (a & b) ^ (a & c) ^ (b & c);                                   // Maj(a,b,c)
+        uint64_t temp2 = S0 + maj;                                                    // As per FIPS 180-4
+
+        // Update state variables
+        current_state.H[7] = g;         // h' = g
+        current_state.H[6] = f;         // g' = f
+        current_state.H[5] = e;         // f' = e
+        current_state.H[4] = d + temp1; // e' = d + temp1
+        current_state.H[3] = c;         // d' = c
+        current_state.H[2] = b;         // c' = b
+        current_state.H[1] = a;         // b' = a
+        current_state.H[0] = temp1 + temp2; // a' = temp1 + temp2
+    }
+
+    // Other private members would be needed for a full implementation:
+    // - K constants arrays (K256, K512)
+    // - Current hash state (sha256_state or sha512_state)
+    // - Buffer for unprocessed message data
+    // - Total message length counter
+    // - Helper functions for padding, message scheduling (Wt generation), etc.
 };
