@@ -37,7 +37,7 @@ class hashing {
             return copies; // So that the original contents are not overwritten.
         }
 
-        uint64_t SHA512 (uint64_t a, uint64_t b, uint64_t c, uint64_t d, uint64_t e, uint64_t f, uint64_t g, uint64_t h, uint64_t derived_word, uint64_t additive_constant)
+        uint64_t* SHA512 (uint64_t a, uint64_t b, uint64_t c, uint64_t d, uint64_t e, uint64_t f, uint64_t g, uint64_t h, uint64_t derived_word, uint64_t additive_constant)
         {
             /** A function to implement SHA256.
             * @authors Tarun Kumar.
