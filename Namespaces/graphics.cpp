@@ -1,4 +1,10 @@
 namespace graphics{
+
+    typedef uint8192_t luminosity; // Light intensity on an object.
+    typedef uint8192_t gradients; // Image gradient.
+    typedef uint8192_t shade; // Shade of an object.
+    typedef uint8192_t pixel; // Pixel gradient intensity.
+    typedef uint8192_t colour; // Colour value.
     
     typedef struct cube{
         long long int length;

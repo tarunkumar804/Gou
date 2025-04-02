@@ -1,11 +1,5 @@
 namespace gpu{
 
-    typedef uint8192_t luminosity; // Light intensity on an object.
-    typedef uint8192_t gradients; // Image gradient.
-    typedef uint8192_t shade; // Shade of an object.
-    typedef uint8192_t pixel; // Pixel gradient intensity.
-    typedef uint8192_t colour; // Colour value.
-
     typedef struct display_depth{
         long long int bit_depth;
         char image_to_send[bit_depth][bit_depth];
