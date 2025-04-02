@@ -5,7 +5,7 @@ class vector_calculus{
 
             /** A function to calculate subspace sums.
             * @authors Tarun Kumar.
-            * @param set - A matrix containing subspace elements where each row is a vector.
+            * @param vector_matrix - A matrix containing subspace elements where each row is a vector.
             * @return A vector containing subspace sums for each vector.
             */
 
