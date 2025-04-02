@@ -1,6 +1,6 @@
 class numerical_methods{
     public:
-        uint8192_t e_calculation (uint8192_t precision){
+        uint8192_t e(uint8192_t precision){
             //Computes Euler's constant to a the precision specified.
             uint8192_t factorial_sum = 0;
             int factorial = 1;
