@@ -4,6 +4,7 @@ class wireless{
     {
       /** A function to calculate PDF of rayleigh fading.
       * Rayleigh scattering model : (2r/E(X = R^2)) x (e^(-r^2)/E(X = R^2))
+      * @authors Tarun Kumar
       * @param R
       * @param r
       * @param precision - how precise should the calculation be.
